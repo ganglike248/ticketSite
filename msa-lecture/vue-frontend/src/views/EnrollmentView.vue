@@ -7,7 +7,7 @@
           <div class="sidebar-label">메뉴</div>
 
           <router-link to="/courses" class="sidebar-item">
-            <span class="si-icon">📚</span> 강의 목록
+            <span class="si-icon">🎬</span> 공연 목록
           </router-link>
 
           <router-link
@@ -15,7 +15,7 @@
             to="/enrollments"
             class="sidebar-item active"
           >
-            <span class="si-icon">✅</span> 내 수강 목록
+            <span class="si-icon">✅</span> 내 티켓 목록
           </router-link>
 
           <router-link to="/mypage" class="sidebar-item">
@@ -35,15 +35,22 @@
       </aside>
 
       <main class="main-content">
-        <h1 class="page-title">내 수강 목록</h1>
+        <h1 class="page-title">내 티켓 목록</h1>
 
         <div v-if="loading" class="loading-center">
           <div class="spinner"></div>
         </div>
 
         <div v-else-if="enrollments.length" class="enrollment-list fade-in">
-          <div v-for="item in enrollments" :key="item.id" class="enrollment-card">
-            <div class="enroll-thumb" :class="getThumbBg(item.course?.category)">
+          <div
+            v-for="item in enrollments"
+            :key="item.id"
+            class="enrollment-card"
+          >
+            <div
+              class="enroll-thumb"
+              :class="getThumbBg(item.course?.category)"
+            >
               <img :src="getThumbSrc(item.course)" :alt="item.course?.title" />
             </div>
 
@@ -52,20 +59,25 @@
                 {{ item.course?.category }}
               </span>
               <h3 class="enroll-title">{{ item.course?.title }}</h3>
-              <p class="enroll-instructor">강사: {{ item.course?.instructorName }}</p>
+              <p class="enroll-instructor">
+                강사: {{ item.course?.instructorName }}
+              </p>
             </div>
 
             <div class="enroll-status">
               <span
                 :class="[
                   'status-badge',
-                  item.status === 'ACTIVE' ? 'status-active' : 'status-pending'
+                  item.status === 'ACTIVE' ? 'status-active' : 'status-pending',
                 ]"
               >
-                {{ item.status === 'ACTIVE' ? '수강 중' : '대기 중' }}
+                {{ item.status === "ACTIVE" ? "수강 중" : "대기 중" }}
               </span>
-              <router-link :to="`/courses/${item.courseId}`" class="btn btn-ghost btn-sm">
-                강의 보기
+              <router-link
+                :to="`/courses/${item.courseId}`"
+                class="btn btn-ghost btn-sm"
+              >
+                공연 보기
               </router-link>
             </div>
           </div>
@@ -73,9 +85,13 @@
 
         <div v-else class="empty-state">
           <p class="empty-icon">📭</p>
-          <p>수강 중인 강의가 없습니다.</p>
-          <router-link to="/courses" class="btn btn-primary" style="margin-top:16px;">
-            강의 둘러보기
+          <p>구매한 티켓이 없습니다.</p>
+          <router-link
+            to="/courses"
+            class="btn btn-primary"
+            style="margin-top: 16px"
+          >
+            공연 둘러보기
           </router-link>
         </div>
       </main>
@@ -84,77 +100,79 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import AppHeader from '@/components/AppHeader.vue'
-import { enrollmentApi } from '@/api/enrollment.js'
-import { useAuthStore } from '@/store/auth.js'
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import AppHeader from "@/components/AppHeader.vue";
+import { enrollmentApi } from "@/api/enrollment.js";
+import { useAuthStore } from "@/store/auth.js";
 
-const router = useRouter()
-const auth = useAuthStore()
+const router = useRouter();
+const auth = useAuthStore();
 
-const enrollments = ref([])
-const loading = ref(true)
+const enrollments = ref([]);
+const loading = ref(true);
 
-const isInstructor = computed(() => auth.user?.role === 'INSTRUCTOR')
+const isInstructor = computed(() => auth.user?.role === "INSTRUCTOR");
 
 const categoryConfig = {
-  '백엔드': { bg: 'thumb-teal', badge: 'badge-teal', thumb: 'spring_boot' },
-  '프론트엔드': { bg: 'thumb-teal', badge: 'badge-teal', thumb: 'vue_js' },
-  'DevOps': { bg: 'thumb-blue', badge: 'badge-blue', thumb: 'kubernetes' },
-  '데이터': { bg: 'thumb-purple', badge: 'badge-purple', thumb: 'python' },
-  'AI': { bg: 'thumb-pink', badge: 'badge-pink', thumb: 'generative_ai' },
-}
+  콘서트: { bg: "thumb-teal", badge: "badge-teal", thumb: "spring_boot" },
+  뮤지컬: { bg: "thumb-teal", badge: "badge-teal", thumb: "vue_js" },
+  연극: { bg: "thumb-blue", badge: "badge-blue", thumb: "kubernetes" },
+  클래식: { bg: "thumb-purple", badge: "badge-purple", thumb: "python" },
+  페스티벌: { bg: "thumb-pink", badge: "badge-pink", thumb: "generative_ai" },
+};
 
 function getThumbBg(cat) {
-  return categoryConfig[cat]?.bg || 'thumb-gray'
+  return categoryConfig[cat]?.bg || "thumb-gray";
 }
 
 function getBadge(cat) {
-  return categoryConfig[cat]?.badge || 'badge-gray'
+  return categoryConfig[cat]?.badge || "badge-gray";
 }
 
 function getThumbSrc(course) {
-  const key = course?.thumbnail || categoryConfig[course?.category]?.thumb
-  if (!key) return ''
+  const key = course?.thumbnail || categoryConfig[course?.category]?.thumb;
+  if (!key) return "";
   try {
-    return new URL(`../assets/images/courses/${key}.png`, import.meta.url).href
+    return new URL(`../assets/images/courses/${key}.png`, import.meta.url).href;
   } catch {
-    return ''
+    return "";
   }
 }
 
 function handleLogout() {
-  auth.logout()
-  router.push('/')
+  auth.logout();
+  router.push("/");
 }
 
 onMounted(async () => {
   // 강사는 이 페이지 접근 불가 → 마이페이지로 이동
   if (isInstructor.value) {
-    console.warn('[EnrollmentView] instructor tried to access /enrollments, redirect to /mypage')
-    router.replace('/mypage')
-    return
+    console.warn(
+      "[EnrollmentView] instructor tried to access /enrollments, redirect to /mypage",
+    );
+    router.replace("/mypage");
+    return;
   }
 
   try {
-    const res = await enrollmentApi.getMyEnrollments()
-    console.log('[EnrollmentView] my enrollments response:', res.data)
+    const res = await enrollmentApi.getMyEnrollments();
+    console.log("[EnrollmentView] my enrollments response:", res.data);
 
     if (Array.isArray(res.data?.data)) {
-      enrollments.value = res.data.data
+      enrollments.value = res.data.data;
     } else if (Array.isArray(res.data)) {
-      enrollments.value = res.data
+      enrollments.value = res.data;
     } else {
-      enrollments.value = []
+      enrollments.value = [];
     }
   } catch (error) {
-    console.error('[EnrollmentView] failed to load enrollments:', error)
-    enrollments.value = []
+    console.error("[EnrollmentView] failed to load enrollments:", error);
+    enrollments.value = [];
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-})
+});
 </script>
 
 <style scoped>
@@ -277,23 +295,23 @@ onMounted(async () => {
 }
 
 .thumb-teal {
-  background: #E1F5EE;
+  background: #e1f5ee;
 }
 
 .thumb-blue {
-  background: #E6F1FB;
+  background: #e6f1fb;
 }
 
 .thumb-purple {
-  background: #EEEDFE;
+  background: #eeedfe;
 }
 
 .thumb-pink {
-  background: #FBEAF0;
+  background: #fbeaf0;
 }
 
 .thumb-gray {
-  background: #F1EFE8;
+  background: #f1efe8;
 }
 
 .enroll-info {
@@ -328,13 +346,13 @@ onMounted(async () => {
 }
 
 .status-active {
-  background: #E1F5EE;
-  color: #0F6E56;
+  background: #e1f5ee;
+  color: #0f6e56;
 }
 
 .status-pending {
-  background: #FAEEDA;
-  color: #854F0B;
+  background: #faeeda;
+  color: #854f0b;
 }
 
 .btn-sm {
