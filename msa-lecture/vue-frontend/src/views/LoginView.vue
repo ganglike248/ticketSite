@@ -4,12 +4,12 @@
       <!-- 좌측 브랜딩 -->
       <div class="login-left">
         <div class="brand">
-          <img src="@/assets/images/logo/main_logo.png" alt="LearnNexus" class="brand-logo" />
-          <span class="brand-name">LearnNexus</span>
+          <img src="@/assets/images/logo/main_logo.png" alt="TicketNexus" class="brand-logo" />
+          <span class="brand-name">TicketNexus</span>
         </div>
         <div class="brand-content">
           <h2>다시 만나서<br>반갑습니다</h2>
-          <p>로그인하고 나만의 학습 여정을 이어가세요.</p>
+          <p>로그인하고 나만의 공연 예매를 이어가세요.</p>
           <ul class="feature-list">
             <li v-for="f in features" :key="f">
               <span class="dot"></span>{{ f }}
@@ -26,7 +26,7 @@
           <!-- 로그인 영역 -->
           <div v-if="!showRegister" class="section">
             <h3 class="section-title">로그인</h3>
-            <p class="section-desc">LearnNexus 계정으로 로그인합니다.</p>
+            <p class="section-desc">TicketNexus 계정으로 로그인합니다.</p>
             <button class="btn btn-primary btn-full" @click="handleOAuth">로그인</button>
             <div class="switch-link">
               계정이 없으신가요?
@@ -53,8 +53,8 @@
               <div class="form-group">
                 <label class="form-label">역할</label>
                 <select v-model="registerForm.role" class="form-input">
-                  <option value="STUDENT">학생</option>
-                  <option value="INSTRUCTOR">강사</option>
+                  <option value="STUDENT">관객</option>
+                  <option value="INSTRUCTOR">주최자</option>
                 </select>
               </div>
               <div v-if="error" class="error-msg">{{ error }}</div>
@@ -90,7 +90,7 @@ const success = ref('')
 
 const registerForm = ref({ name: '', email: '', password: '', role: 'STUDENT' })
 
-const features = ['수강 중인 강의 이어보기', '맞춤 강의 추천', '수료증 관리']
+const features = ['예매한 공연 확인하기', '맞춤 공연 추천', '예매 내역 관리']
 
 function handleOAuth() {
   auth.redirectToLogin()
