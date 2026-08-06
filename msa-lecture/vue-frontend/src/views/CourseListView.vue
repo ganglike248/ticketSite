@@ -94,7 +94,7 @@
 
 				<!-- 빈 상태 -->
 				<div v-else class="empty-state">
-					<p>해당 장르의 공연가 없습니다.</p>
+					<p>해당 장르의 공연이 없습니다.</p>
 
 					<router-link
 						v-if="isInstructor"
