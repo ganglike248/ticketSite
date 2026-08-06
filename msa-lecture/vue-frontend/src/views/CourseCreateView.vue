@@ -13,7 +13,7 @@
             class="sidebar-item"
             :class="{ active: $route.path === '/courses' }"
           >
-            <span class="si-icon">📚</span> 강의 목록
+            <span class="si-icon">📚</span> 공연 목록
           </router-link>
 
           <router-link
@@ -21,7 +21,7 @@
             class="sidebar-item"
             :class="{ active: $route.path === '/courses/new' }"
           >
-            <span class="si-icon">✍️</span> 강의 등록
+            <span class="si-icon">✍️</span> 공연 등록
           </router-link>
 
           <router-link to="/mypage" class="sidebar-item">
@@ -44,41 +44,47 @@
       <main class="main-content">
         <div class="content-header">
           <div>
-            <h1 class="page-title">강의 등록</h1>
-            <p class="page-subtitle">강사 계정으로 새로운 강의를 등록합니다.</p>
+            <h1 class="page-title">공연 등록</h1>
+            <p class="page-subtitle">
+              호스트 계정으로 새로운 공연을 등록합니다.
+            </p>
           </div>
         </div>
 
         <div class="form-card">
           <form class="course-form" @submit.prevent="handleSubmit">
             <div class="form-group">
-              <label class="form-label" for="title">강의명</label>
+              <label class="form-label" for="title">공연명</label>
               <input
                 id="title"
                 v-model.trim="form.title"
                 type="text"
                 class="form-input"
-                placeholder="예: Cloud Native App기반 Web Service 개발"
+                placeholder="예: 2026 여름 락 페스티벌"
                 maxlength="100"
               />
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="description">강의 설명</label>
+              <label class="form-label" for="description">공연 설명</label>
               <textarea
                 id="description"
                 v-model.trim="form.description"
                 class="form-textarea"
                 rows="6"
-                placeholder="강의 소개, 학습 목표, 대상 등을 입력해 주세요."
+                placeholder="공연 소개, 출연진, 관람 등급 등을 입력해 주세요."
               ></textarea>
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label" for="category">카테고리</label>
-                <select id="category" v-model="form.category" class="form-select">
-                  <option disabled value="">카테고리를 선택하세요</option>
+                <label class="form-label" for="category">장르</label>
+                <select
+                  id="category"
+                  v-model="form.category"
+                  class="form-select"
+                >
+                  <option disabled value="">장르를 선택하세요</option>
                   <option
                     v-for="option in categoryOptions"
                     :key="option.value"
@@ -90,7 +96,7 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="price">가격</label>
+                <label class="form-label" for="price">티켓 가격</label>
                 <input
                   id="price"
                   v-model.number="form.price"
@@ -120,9 +126,13 @@
                 취소
               </router-link>
 
-              <button type="submit" class="btn btn-primary" :disabled="submitting">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                :disabled="submitting"
+              >
                 <span v-if="submitting">등록 중...</span>
-                <span v-else>강의 등록</span>
+                <span v-else>공연 등록</span>
               </button>
             </div>
           </form>
@@ -133,118 +143,115 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import AppHeader from '@/components/AppHeader.vue'
-import { courseApi } from '@/api/course.js'
-import { useAuthStore } from '@/store/auth.js'
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import AppHeader from "@/components/AppHeader.vue";
+import { courseApi } from "@/api/course.js";
+import { useAuthStore } from "@/store/auth.js";
 
-const router = useRouter()
-const auth = useAuthStore()
+const router = useRouter();
+const auth = useAuthStore();
 
 const form = reactive({
-  title: '',
-  description: '',
-  category: '',
-  price: null
-})
+  title: "",
+  description: "",
+  category: "",
+  price: null,
+});
 
-const submitting = ref(false)
-const validationError = ref('')
-const submitError = ref('')
-const submitSuccess = ref('')
+const submitting = ref(false);
+const validationError = ref("");
+const submitError = ref("");
+const submitSuccess = ref("");
 
 const categoryOptions = [
-  { label: '백엔드', value: 'BACKEND' },
-  { label: '프론트엔드', value: 'FRONTEND' },
-  { label: 'DevOps', value: 'DEVOPS' },
-  { label: '데이터', value: 'DATA' },
-  { label: 'AI', value: 'AI' }
-]
+  { label: "콘서트", value: "BACKEND" },
+  { label: "뮤지컬", value: "FRONTEND" },
+  { label: "연극", value: "DEVOPS" },
+  { label: "전시/행사", value: "DATA" },
+  { label: "패스티벌", value: "AI" },
+];
 
 function handleLogout() {
-  auth.logout()
-  router.push('/')
+  auth.logout();
+  router.push("/");
 }
 
 function validateForm() {
-  validationError.value = ''
+  validationError.value = "";
 
-  if (!auth.user || auth.user.role !== 'INSTRUCTOR') {
-    validationError.value = '강사 계정만 강의를 등록할 수 있습니다.'
-    return false
+  if (!auth.user || auth.user.role !== "INSTRUCTOR") {
+    validationError.value = "호스트 계정만 공연을 등록할 수 있습니다.";
+    return false;
   }
 
   if (!form.title) {
-    validationError.value = '강의명을 입력해 주세요.'
-    return false
+    validationError.value = "공연명을 입력해 주세요.";
+    return false;
   }
 
   if (!form.description) {
-    validationError.value = '강의 설명을 입력해 주세요.'
-    return false
+    validationError.value = "공연 설명을 입력해 주세요.";
+    return false;
   }
 
   if (!form.category) {
-    validationError.value = '카테고리를 선택해 주세요.'
-    return false
+    validationError.value = "장르를 선택해 주세요.";
+    return false;
   }
 
-  if (form.price === null || form.price === undefined || form.price === '') {
-    validationError.value = '가격을 입력해 주세요.'
-    return false
+  if (form.price === null || form.price === undefined || form.price === "") {
+    validationError.value = "티켓 가격을 입력해 주세요.";
+    return false;
   }
 
-  const price = Number(form.price)
+  const price = Number(form.price);
   if (Number.isNaN(price) || price < 0) {
-    validationError.value = '가격은 0 이상의 숫자로 입력해 주세요.'
-    return false
+    validationError.value = "티켓 가격은 0 이상의 숫자로 입력해 주세요.";
+    return false;
   }
 
-  return true
+  return true;
 }
 
 async function handleSubmit() {
-  submitError.value = ''
-  submitSuccess.value = ''
+  submitError.value = "";
+  submitSuccess.value = "";
 
-  if (!validateForm()) return
+  if (!validateForm()) return;
 
-  submitting.value = true
+  submitting.value = true;
 
   try {
     const payload = {
       title: form.title,
       description: form.description,
       category: form.category,
-      price: Number(form.price)
-    }
+      price: Number(form.price),
+    };
 
-    const res = await courseApi.create(payload)
-    console.log('[CourseCreate] create response =', res.data)
+    const res = await courseApi.create(payload);
+    console.log("[CourseCreate] create response =", res.data);
 
-    submitSuccess.value = '강의가 성공적으로 등록되었습니다.'
+    submitSuccess.value = "공연이 성공적으로 등록되었습니다.";
 
-    const createdCourseId =
-      res.data?.data?.id ??
-      res.data?.id
+    const createdCourseId = res.data?.data?.id ?? res.data?.id;
 
     if (createdCourseId) {
       setTimeout(() => {
-        router.push(`/courses/${createdCourseId}`)
-      }, 500)
+        router.push(`/courses/${createdCourseId}`);
+      }, 500);
     } else {
       setTimeout(() => {
-        router.push('/courses')
-      }, 500)
+        router.push("/courses");
+      }, 500);
     }
   } catch (error) {
-    console.error('[CourseCreate] create failed:', error)
+    console.error("[CourseCreate] create failed:", error);
     submitError.value =
-      error.response?.data?.message ||
-      '강의 등록에 실패했습니다.'
+      error.response?.data?.message || "공연 등록에 실패했습니다.";
   } finally {
-    submitting.value = false
+    submitting.value = false;
   }
 }
 </script>
