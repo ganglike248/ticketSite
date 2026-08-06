@@ -23,33 +23,27 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useCourseStore } from '@/store/course.js'
 
 const props = defineProps({
   course: { type: Object, required: true }
 })
 
+const courseStore = useCourseStore()
+
 const categoryConfig = {
-  '백엔드':    { bg: 'thumb-teal',   badge: 'badge-teal',   thumb: 'spring_boot' },
-  '프론트엔드':{ bg: 'thumb-teal',   badge: 'badge-teal',   thumb: 'vue_js' },
-  'DevOps':   { bg: 'thumb-blue',   badge: 'badge-blue',   thumb: 'docker' },
-  '데이터':   { bg: 'thumb-purple', badge: 'badge-purple', thumb: 'python' },
-  'AI':       { bg: 'thumb-pink',   badge: 'badge-pink',   thumb: 'generative_ai' },
+  '콘서트':   { bg: 'thumb-teal',   badge: 'badge-teal' },
+  '뮤지컬':   { bg: 'thumb-blue',   badge: 'badge-blue' },
+  '연극':     { bg: 'thumb-amber',  badge: 'badge-amber' },
+  '클래식':   { bg: 'thumb-purple', badge: 'badge-purple' },
+  '페스티벌': { bg: 'thumb-pink',   badge: 'badge-pink' },
 }
 
 const config = computed(() => categoryConfig[props.course.category] || { bg: 'thumb-gray', badge: 'badge-gray' })
 const thumbBg = computed(() => config.value.bg)
 const badgeClass = computed(() => config.value.badge)
 
-// 썸네일 이미지 동적 import
-const thumbSrc = computed(() => {
-  const key = props.course.thumbnail || config.value.thumb
-  if (!key) return null
-  try {
-    return new URL(`../assets/images/courses/${key}.png`, import.meta.url).href
-  } catch {
-    return null
-  }
-})
+const thumbSrc = computed(() => courseStore.getThumbnail(props.course))
 </script>
 
 <style scoped>
@@ -84,8 +78,7 @@ const thumbSrc = computed(() => {
 .thumb-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 16px;
+  object-fit: cover;
 }
 .thumb-placeholder {
   font-size: 36px;

@@ -22,27 +22,23 @@ export const useCourseStore = defineStore("course", () => {
 
 	// 썸네일 이미지 매핑
 	const thumbnailMap = {
-		SPRING: new URL("../assets/images/courses/spring_boot.png", import.meta.url)
+		CONCERT: new URL("../assets/images/courses/concert1.jpg", import.meta.url)
 			.href,
-		VUE: new URL("../assets/images/courses/vue_js.png", import.meta.url).href,
-		DOCKER: new URL("../assets/images/courses/docker.png", import.meta.url)
+		MUSICAL: new URL("../assets/images/courses/musical1.jpg", import.meta.url)
 			.href,
-		KUBERNETES: new URL(
-			"../assets/images/courses/kubernetes.png",
-			import.meta.url,
-		).href,
-		PYTHON: new URL("../assets/images/courses/python.png", import.meta.url)
+		PLAY: new URL("../assets/images/courses/act1.jpg", import.meta.url).href,
+		CLASSIC: new URL("../assets/images/courses/classic1.jpg", import.meta.url)
 			.href,
-		AI: new URL("../assets/images/courses/generative_ai.png", import.meta.url)
+		FESTIVAL: new URL("../assets/images/courses/festival1.jpg", import.meta.url)
 			.href,
 	};
 
 	const categoryThumbnailMap = {
-		콘서트: thumbnailMap.SPRING,
-		뮤지컬: thumbnailMap.VUE,
-		연극: thumbnailMap.KUBERNETES,
-		클래식: thumbnailMap.PYTHON,
-		페스티벌: thumbnailMap.AI,
+		콘서트: thumbnailMap.CONCERT,
+		뮤지컬: thumbnailMap.MUSICAL,
+		연극: thumbnailMap.PLAY,
+		클래식: thumbnailMap.CLASSIC,
+		페스티벌: thumbnailMap.FESTIVAL,
 	};
 
 	function normalizeCategory(category) {

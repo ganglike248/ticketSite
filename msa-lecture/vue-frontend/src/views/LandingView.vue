@@ -89,20 +89,20 @@
 <script setup>
 import AppHeader from '@/components/AppHeader.vue'
 
-import springImg   from '@/assets/images/courses/spring_boot.png'
-import vueImg      from '@/assets/images/courses/vue_js.png'
-import k8sImg      from '@/assets/images/courses/kubernetes.png'
-import dockerImg   from '@/assets/images/courses/docker.png'
-import pythonImg   from '@/assets/images/courses/python.png'
-import genaiImg    from '@/assets/images/courses/generative_ai.png'
+import concertImg  from '@/assets/images/courses/concert1.jpg'
+import musicalImg  from '@/assets/images/courses/musical1.jpg'
+import act1Img     from '@/assets/images/courses/act1.jpg'
+import act2Img      from '@/assets/images/courses/act2.jpg'
+import classicImg  from '@/assets/images/courses/classic1.jpg'
+import festivalImg from '@/assets/images/courses/festival1.jpg'
 
 const featuredCourses = [
-  { id:1, title:'2026 드림 콘서트 <봄의 왈츠>',   category:'콘서트',   instructor:'드림뮤직컴퍼니',     price:'₩89,000', thumbSrc: springImg, thumbBg:'thumb-teal',   badgeClass:'badge-teal'   },
-  { id:2, title:'뮤지컬 <라이트 하우스>',         category:'뮤지컬',   instructor:'스테이지원컴퍼니',   price:'₩69,000', thumbSrc: vueImg,    thumbBg:'thumb-teal',   badgeClass:'badge-teal'   },
-  { id:3, title:'연극 <자정의 목소리>',           category:'연극',     instructor:'무대예술기획',       price:'₩99,000', thumbSrc: k8sImg,    thumbBg:'thumb-blue',   badgeClass:'badge-blue'   },
-  { id:4, title:'연극 <겨울, 그리고 봄>',         category:'연극',     instructor:'한여름기획',         price:'₩79,000', thumbSrc: dockerImg, thumbBg:'thumb-blue',   badgeClass:'badge-blue'   },
-  { id:5, title:'클래식 갈라 콘서트 <현의 울림>', category:'클래식',   instructor:'필하모닉프로덕션',   price:'₩59,000', thumbSrc: pythonImg, thumbBg:'thumb-purple', badgeClass:'badge-purple' },
-  { id:6, title:'2026 썸머 뮤직 페스티벌',        category:'페스티벌', instructor:'빅웨이브페스티벌컴퍼니', price:'₩75,000', thumbSrc: genaiImg,  thumbBg:'thumb-pink',   badgeClass:'badge-pink'   },
+  { id:1, title:'2026 드림 콘서트 <봄의 왈츠>',   category:'콘서트',   instructor:'드림뮤직컴퍼니',     price:'₩89,000', thumbSrc: concertImg,  thumbBg:'thumb-teal',   badgeClass:'badge-teal'   },
+  { id:2, title:'뮤지컬 <라이트 하우스>',         category:'뮤지컬',   instructor:'스테이지원컴퍼니',   price:'₩69,000', thumbSrc: musicalImg,  thumbBg:'thumb-teal',   badgeClass:'badge-teal'   },
+  { id:3, title:'연극 <자정의 목소리>',           category:'연극',     instructor:'무대예술기획',       price:'₩99,000', thumbSrc: act1Img,     thumbBg:'thumb-blue',   badgeClass:'badge-blue'   },
+  { id:4, title:'연극 <겨울, 그리고 봄>',         category:'연극',     instructor:'한여름기획',         price:'₩79,000', thumbSrc: act2Img,     thumbBg:'thumb-blue',   badgeClass:'badge-blue'   },
+  { id:5, title:'클래식 갈라 콘서트 <현의 울림>', category:'클래식',   instructor:'필하모닉프로덕션',   price:'₩59,000', thumbSrc: classicImg,  thumbBg:'thumb-purple', badgeClass:'badge-purple' },
+  { id:6, title:'2026 썸머 뮤직 페스티벌',        category:'페스티벌', instructor:'빅웨이브페스티벌컴퍼니', price:'₩75,000', thumbSrc: festivalImg, thumbBg:'thumb-pink',   badgeClass:'badge-pink'   },
 ]
 
 const features = [
@@ -223,7 +223,7 @@ const features = [
 .thumb-blue   { background: #E6F1FB; }
 .thumb-purple { background: #EEEDFE; }
 .thumb-pink   { background: #FBEAF0; }
-.thumb-img { width: 100%; height: 100%; object-fit: contain; padding: 14px; }
+.thumb-img { width: 100%; height: 100%; object-fit: cover; }
 .card-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
 .card-title { font-size: 14px; font-weight: 600; color: var(--color-text-primary); line-height: 1.4; }
 .card-meta { display: flex; justify-content: space-between; align-items: center; }
