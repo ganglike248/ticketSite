@@ -7,7 +7,7 @@
           <div class="sidebar-label">메뉴</div>
 
           <router-link to="/courses" class="sidebar-item">
-            <span class="si-icon">📚</span> 강의 목록
+            <span class="si-icon">📚</span> 공연 목록
           </router-link>
 
           <router-link
@@ -15,7 +15,7 @@
             to="/enrollments"
             class="sidebar-item"
           >
-            <span class="si-icon">✅</span> 내 수강 목록
+            <span class="si-icon">✅</span> 내 예매 목록
           </router-link>
 
           <router-link to="/mypage" class="sidebar-item active">
@@ -34,19 +34,24 @@
       <main class="main-content">
         <!-- 프로필 카드 -->
         <div class="profile-card fade-in-up">
-          <div class="profile-avatar">{{ auth.user?.name?.charAt(0) || '?' }}</div>
+          <div class="profile-avatar">
+            {{ auth.user?.name?.charAt(0) || "?" }}
+          </div>
           <div class="profile-info">
-            <h2 class="profile-name">{{ auth.user?.name || '사용자' }}</h2>
-            <p class="profile-email">{{ auth.user?.email || '-' }}</p>
-            <span class="badge" :class="isInstructor ? 'badge-amber' : 'badge-blue'">
-              {{ isInstructor ? '강사' : '학생' }}
+            <h2 class="profile-name">{{ auth.user?.name || "사용자" }}</h2>
+            <p class="profile-email">{{ auth.user?.email || "-" }}</p>
+            <span
+              class="badge"
+              :class="isInstructor ? 'badge-amber' : 'badge-blue'"
+            >
+              {{ isInstructor ? "주최자" : "관객" }}
             </span>
           </div>
         </div>
 
-        <!-- 학생 화면 -->
+        <!-- 관객 화면 -->
         <section v-if="!isInstructor" class="recommend-section">
-          <h3 class="section-title">추천 강의</h3>
+          <h3 class="section-title">추천 공연</h3>
 
           <p v-if="recommendMessage" class="recommend-message">
             {{ recommendMessage }}
@@ -62,7 +67,10 @@
             </div>
           </div>
 
-          <div v-else-if="recommendations.length" class="recommend-grid fade-in">
+          <div
+            v-else-if="recommendations.length"
+            class="recommend-grid fade-in"
+          >
             <CourseCard v-for="c in recommendations" :key="c.id" :course="c" />
           </div>
 
@@ -70,25 +78,25 @@
             {{ recommendError }}
           </p>
 
-          <p v-else class="empty-text">
-            아직 추천할 강의가 없습니다.
-          </p>
+          <p v-else class="empty-text">아직 추천할 공연이 없습니다.</p>
         </section>
 
-        <!-- 강사 화면 -->
+        <!-- 주최자 화면 -->
         <section v-else class="instructor-section">
           <div class="section-head">
-            <h3 class="section-title">내가 등록한 강좌</h3>
-            <span class="section-subtitle">등록한 강좌와 강좌별 수강생 수를 확인할 수 있습니다.</span>
+            <h3 class="section-title">내가 등록한 공연</h3>
+            <span class="section-subtitle"
+              >등록한 공연과 공연별 예매 인원을 확인할 수 있습니다.</span
+            >
           </div>
 
           <div class="summary-cards">
             <div class="summary-card">
-              <div class="summary-label">등록 강좌 수</div>
+              <div class="summary-label">등록 공연 수</div>
               <div class="summary-value">{{ myCourses.length }}</div>
             </div>
             <div class="summary-card">
-              <div class="summary-label">총 수강생 수</div>
+              <div class="summary-label">총 예매 인원</div>
               <div class="summary-value">{{ totalEnrollmentCount }}</div>
             </div>
           </div>
@@ -103,7 +111,10 @@
             </div>
           </div>
 
-          <div v-else-if="myCourses.length" class="instructor-course-list fade-in">
+          <div
+            v-else-if="myCourses.length"
+            class="instructor-course-list fade-in"
+          >
             <div
               v-for="course in myCourses"
               :key="course.id"
@@ -112,40 +123,51 @@
               <div class="course-card-top">
                 <div>
                   <h4 class="course-title">{{ course.title }}</h4>
-                  <p class="course-desc">{{ course.description || '설명이 없습니다.' }}</p>
+                  <p class="course-desc">
+                    {{ course.description || "공연 설명이 없습니다." }}
+                  </p>
                 </div>
                 <span
                   class="status-badge"
-                  :class="course.status === 'ACTIVE' ? 'status-active' : 'status-inactive'"
+                  :class="
+                    course.status === 'ACTIVE'
+                      ? 'status-active'
+                      : 'status-inactive'
+                  "
                 >
-                  {{ course.status || 'UNKNOWN' }}
+                  {{ course.status || "UNKNOWN" }}
                 </span>
               </div>
 
               <div class="course-meta-grid">
                 <div class="meta-box">
-                  <div class="meta-label">카테고리</div>
-                  <div class="meta-value">{{ course.category || '-' }}</div>
+                  <div class="meta-label">장르</div>
+                  <div class="meta-value">{{ course.category || "-" }}</div>
                 </div>
                 <div class="meta-box">
-                  <div class="meta-label">가격</div>
+                  <div class="meta-label">티켓 가격</div>
                   <div class="meta-value">{{ formatPrice(course.price) }}</div>
                 </div>
                 <div class="meta-box">
-                  <div class="meta-label">수강생 수</div>
+                  <div class="meta-label">예매 인원</div>
                   <div class="meta-value">
-                    {{ course.enrollment_count ?? course.enrollmentCount ?? 0 }}명
+                    {{
+                      course.enrollment_count ?? course.enrollmentCount ?? 0
+                    }}명
                   </div>
                 </div>
                 <div class="meta-box">
-                  <div class="meta-label">강좌 ID</div>
+                  <div class="meta-label">공연 ID</div>
                   <div class="meta-value">#{{ course.id }}</div>
                 </div>
               </div>
 
               <div class="course-card-actions">
-                <router-link :to="`/courses/${course.id}`" class="action-btn action-primary">
-                  강좌 보기
+                <router-link
+                  :to="`/courses/${course.id}`"
+                  class="action-btn action-primary"
+                >
+                  공연 상세보기
                 </router-link>
               </div>
             </div>
@@ -155,9 +177,7 @@
             {{ instructorError }}
           </p>
 
-          <p v-else class="empty-text">
-            아직 등록한 강좌가 없습니다.
-          </p>
+          <p v-else class="empty-text">아직 등록한 공연이 없습니다.</p>
         </section>
       </main>
     </div>
@@ -165,50 +185,52 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import AppHeader from '@/components/AppHeader.vue'
-import CourseCard from '@/components/CourseCard.vue'
-import { useAuthStore } from '@/store/auth.js'
-import { enrollmentApi } from '@/api/enrollment.js'
-import { courseApi } from '@/api/course.js'
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import AppHeader from "@/components/AppHeader.vue";
+import CourseCard from "@/components/CourseCard.vue";
+import { useAuthStore } from "@/store/auth.js";
+import { enrollmentApi } from "@/api/enrollment.js";
+import { courseApi } from "@/api/course.js";
 
-const router = useRouter()
-const auth = useAuthStore()
+const router = useRouter();
+const auth = useAuthStore();
 
-const isInstructor = computed(() => auth.user?.role === 'INSTRUCTOR')
+const isInstructor = computed(() => auth.user?.role === "INSTRUCTOR");
 
-/* 학생용 */
-const recommendations = ref([])
-const recommendLoading = ref(true)
-const recommendError = ref('')
-const recommendMessage = ref('')
+/* 관객용 */
+const recommendations = ref([]);
+const recommendLoading = ref(true);
+const recommendError = ref("");
+const recommendMessage = ref("");
 
-/* 강사용 */
-const myCourses = ref([])
-const instructorLoading = ref(true)
-const instructorError = ref('')
+/* 주최자용 */
+const myCourses = ref([]);
+const instructorLoading = ref(true);
+const instructorError = ref("");
 
 const totalEnrollmentCount = computed(() =>
   myCourses.value.reduce((sum, course) => {
-    const count = Number(course.enrollment_count ?? course.enrollmentCount ?? 0)
-    return sum + (Number.isNaN(count) ? 0 : count)
-  }, 0)
-)
+    const count = Number(
+      course.enrollment_count ?? course.enrollmentCount ?? 0,
+    );
+    return sum + (Number.isNaN(count) ? 0 : count);
+  }, 0),
+);
 
 function handleLogout() {
-  auth.logout()
-  router.push('/')
+  auth.logout();
+  router.push("/");
 }
 
 function formatPrice(price) {
-  const value = Number(price ?? 0)
-  if (Number.isNaN(value)) return '-'
-  return `${value.toLocaleString()}원`
+  const value = Number(price ?? 0);
+  if (Number.isNaN(value)) return "-";
+  return `${value.toLocaleString()}원`;
 }
 
 /**
- * course 객체에서 강사 식별자 추출
+ * course 객체에서 주최자 식별자 추출
  */
 function getCourseInstructorId(course) {
   return (
@@ -218,118 +240,125 @@ function getCourseInstructorId(course) {
     course.teacherId ??
     course.teacher_id ??
     null
-  )
+  );
 }
 
 async function loadStudentRecommendations() {
   try {
     if (!auth.user) {
-      console.warn('[MyPage] auth.user is missing')
-      recommendError.value = '추천 강의를 준비 중입니다.'
-      return
+      console.warn("[MyPage] auth.user is missing");
+      recommendError.value = "추천 공연을 준비 중입니다.";
+      return;
     }
 
     if (!auth.user.id) {
-      console.warn('[MyPage] auth.user.id is missing:', auth.user)
-      recommendError.value = '추천 강의를 준비 중입니다.'
-      return
+      console.warn("[MyPage] auth.user.id is missing:", auth.user);
+      recommendError.value = "추천 공연을 준비 중입니다.";
+      return;
     }
 
-    const res = await enrollmentApi.getRecommendations(auth.user.id)
-    console.log('[MyPage] recommendation response:', res.data)
+    const res = await enrollmentApi.getRecommendations(auth.user.id);
+    console.log("[MyPage] recommendation response:", res.data);
 
-    const payload = res.data
+    const payload = res.data;
 
     if (Array.isArray(payload?.recommendedCourses)) {
-      recommendations.value = payload.recommendedCourses
-      recommendMessage.value = payload.message ?? ''
+      recommendations.value = payload.recommendedCourses;
+      recommendMessage.value = payload.message ?? "";
     } else if (Array.isArray(payload?.data)) {
-      recommendations.value = payload.data
-      recommendMessage.value = payload.message ?? ''
+      recommendations.value = payload.data;
+      recommendMessage.value = payload.message ?? "";
     } else if (Array.isArray(payload)) {
-      recommendations.value = payload
-      recommendMessage.value = ''
+      recommendations.value = payload;
+      recommendMessage.value = "";
     } else {
-      console.warn('[MyPage] unexpected recommendation response shape:', payload)
-      recommendations.value = []
-      recommendMessage.value = ''
+      console.warn(
+        "[MyPage] unexpected recommendation response shape:",
+        payload,
+      );
+      recommendations.value = [];
+      recommendMessage.value = "";
     }
   } catch (error) {
-    console.error('[MyPage] failed to load recommendations:', error)
-    recommendError.value = '현재 추천 강의를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.'
+    console.error("[MyPage] failed to load recommendations:", error);
+    recommendError.value =
+      "현재 추천 공연을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
   } finally {
-    recommendLoading.value = false
+    recommendLoading.value = false;
   }
 }
 
 async function loadInstructorCourses() {
   try {
     if (!auth.user) {
-      console.warn('[MyPage] instructor auth.user is missing')
-      instructorError.value = '강좌 정보를 불러오지 못했습니다.'
-      return
+      console.warn("[MyPage] instructor auth.user is missing");
+      instructorError.value = "공연 정보를 불러오지 못했습니다.";
+      return;
     }
 
     if (!auth.user.id) {
-      console.warn('[MyPage] instructor auth.user.id is missing:', auth.user)
-      instructorError.value = '강좌 정보를 불러오지 못했습니다.'
-      return
+      console.warn("[MyPage] instructor auth.user.id is missing:", auth.user);
+      instructorError.value = "공연 정보를 불러오지 못했습니다.";
+      return;
     }
 
-    const res = await courseApi.getCourses()
-    console.log('[MyPage] course list response:', res.data)
+    const res = await courseApi.getCourses();
+    console.log("[MyPage] course list response:", res.data);
 
-    let courses = []
+    let courses = [];
 
     if (Array.isArray(res.data?.data)) {
-      courses = res.data.data
+      courses = res.data.data;
     } else if (Array.isArray(res.data)) {
-      courses = res.data
+      courses = res.data;
     } else {
-      console.warn('[MyPage] unexpected course response shape:', res.data)
+      console.warn("[MyPage] unexpected course response shape:", res.data);
     }
 
-    console.log('[MyPage] auth.user =', auth.user)
-    console.log('[MyPage] courses =', courses)
-    console.log('[MyPage] first course =', courses[0])
+    console.log("[MyPage] auth.user =", auth.user);
+    console.log("[MyPage] courses =", courses);
+    console.log("[MyPage] first course =", courses[0]);
 
-    courses.forEach(course => {
-      console.log('[MyPage] instructor fields check:', {
+    courses.forEach((course) => {
+      console.log("[MyPage] instructor fields check:", {
         courseId: course.id,
         instructorId: course.instructorId,
         instructor_id: course.instructor_id,
         instructor: course.instructor,
         teacherId: course.teacherId,
         teacher_id: course.teacher_id,
-        rawCourse: course
-      })
-    })
+        rawCourse: course,
+      });
+    });
 
-    const instructorId = Number(auth.user.id)
+    const instructorId = Number(auth.user.id);
 
-    myCourses.value = courses.filter(course => {
-      const courseInstructorId = Number(getCourseInstructorId(course))
-      return !Number.isNaN(courseInstructorId) && courseInstructorId === instructorId
-    })
+    myCourses.value = courses.filter((course) => {
+      const courseInstructorId = Number(getCourseInstructorId(course));
+      return (
+        !Number.isNaN(courseInstructorId) && courseInstructorId === instructorId
+      );
+    });
 
-    console.log('[MyPage] filtered myCourses =', myCourses.value)
+    console.log("[MyPage] filtered myCourses =", myCourses.value);
   } catch (error) {
-    console.error('[MyPage] failed to load instructor courses:', error)
-    instructorError.value = '현재 강좌 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.'
+    console.error("[MyPage] failed to load instructor courses:", error);
+    instructorError.value =
+      "현재 공연 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
   } finally {
-    instructorLoading.value = false
+    instructorLoading.value = false;
   }
 }
 
 onMounted(async () => {
   if (isInstructor.value) {
-    recommendLoading.value = false
-    await loadInstructorCourses()
+    recommendLoading.value = false;
+    await loadInstructorCourses();
   } else {
-    instructorLoading.value = false
-    await loadStudentRecommendations()
+    instructorLoading.value = false;
+    await loadStudentRecommendations();
   }
-})
+});
 </script>
 
 <style scoped>
