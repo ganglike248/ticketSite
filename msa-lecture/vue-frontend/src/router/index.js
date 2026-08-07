@@ -49,6 +49,12 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/sales-insight',
+    name: 'SalesInsight',
+    component: () => import('@/views/SalesInsightView.vue'),
+    meta: { requiresAuth: true, instructorOnly: true }
+  },
+  {
     path: '/mypage',
     name: 'MyPage',
     component: () => import('@/views/MyPageView.vue'),
