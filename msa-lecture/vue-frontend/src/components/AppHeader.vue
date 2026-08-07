@@ -3,14 +3,29 @@
     <div class="header-inner">
       <!-- 로고 -->
       <router-link to="/" class="logo">
-        <img src="@/assets/images/logo/main_logo.png" alt="LearnNexus" class="logo-img" />
-        <span class="logo-text">LearnNexus</span>
+        <img src="@/assets/images/logo/main_logo.png" alt="TicketNexus" class="logo-img" />
+        <span class="logo-text">TicketNexus</span>
       </router-link>
 
       <!-- 네비게이션 -->
       <nav class="nav-links" v-if="auth.isAuthenticated">
-        <router-link to="/courses" class="nav-link" :class="{ active: $route.path.startsWith('/courses') }">강의</router-link>
-        <router-link to="/enrollments" class="nav-link" :class="{ active: $route.path === '/enrollments' }">내 학습</router-link>
+        <router-link to="/courses" class="nav-link" :class="{ active: $route.path.startsWith('/courses') }">공연</router-link>
+        <router-link
+          v-if="auth.isInstructor"
+          to="/sales-insight"
+          class="nav-link"
+          :class="{ active: $route.path === '/sales-insight' }"
+        >
+          AI 판매 인사이트
+        </router-link>
+        <router-link
+          v-else
+          to="/enrollments"
+          class="nav-link"
+          :class="{ active: $route.path === '/enrollments' }"
+        >
+          내 예매
+        </router-link>
       </nav>
 
       <!-- 우측 액션 -->
@@ -124,5 +139,25 @@ function handleLogout() {
 .user-avatar:hover {
   background: var(--color-primary);
   color: #fff;
+}
+
+@media (max-width: 720px) {
+  .header-inner {
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .logo-text {
+    display: none;
+  }
+
+  .nav-link {
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+
+  .header-actions .btn {
+    display: none;
+  }
 }
 </style>

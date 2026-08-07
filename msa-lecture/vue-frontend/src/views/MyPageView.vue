@@ -21,6 +21,14 @@
           <router-link to="/mypage" class="sidebar-item active">
             <span class="si-icon">⭐</span> 마이페이지
           </router-link>
+
+          <router-link
+            v-if="isInstructor"
+            to="/sales-insight"
+            class="sidebar-item"
+          >
+            <span class="si-icon">✨</span> AI 판매 인사이트
+          </router-link>
         </div>
 
         <div class="sidebar-section">
@@ -163,6 +171,15 @@
               </div>
 
               <div class="course-card-actions">
+                <router-link
+                  :to="{
+                    name: 'SalesInsight',
+                    query: { courseId: course.id },
+                  }"
+                  class="action-btn action-secondary"
+                >
+                  AI 판매 분석
+                </router-link>
                 <router-link
                   :to="`/courses/${course.id}`"
                   class="action-btn action-primary"
@@ -680,6 +697,8 @@ onMounted(async () => {
 .course-card-actions {
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 9px;
 }
 
 .action-btn {
@@ -701,6 +720,17 @@ onMounted(async () => {
 
 .action-primary:hover {
   opacity: 0.92;
+}
+
+.action-secondary {
+  border: 1px solid #d8d1ff;
+  background: #f1efff;
+  color: #5d49c9;
+}
+
+.action-secondary:hover {
+  border-color: #6b57d8;
+  background: #e9e5ff;
 }
 
 .empty-text {
