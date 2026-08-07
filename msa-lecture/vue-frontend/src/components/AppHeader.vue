@@ -16,6 +16,7 @@
       <!-- 우측 액션 -->
       <div class="header-actions">
         <template v-if="auth.isAuthenticated">
+          <router-link v-if="auth.isInstructor" to="/marketing" class="btn btn-outline btn-sm">AI 마케팅 센터</router-link>
           <router-link to="/mypage" class="user-avatar" :title="auth.user?.name">
             {{ auth.user?.name?.charAt(0) || '?' }}
           </router-link>
