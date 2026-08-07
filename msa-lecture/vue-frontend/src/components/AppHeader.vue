@@ -3,25 +3,16 @@
     <div class="header-inner">
       <!-- 로고 -->
       <router-link to="/" class="logo">
-<<<<<<< HEAD
-        <img src="@/assets/images/logo/main_logo.png" alt="TicketNexus" class="logo-img" />
-=======
         <img
           src="@/assets/images/logo/main_logo.png"
           alt="TicketNexus"
           class="logo-img"
         />
->>>>>>> main
         <span class="logo-text">TicketNexus</span>
       </router-link>
 
       <!-- 네비게이션 -->
       <nav class="nav-links" v-if="auth.isAuthenticated">
-<<<<<<< HEAD
-        <router-link to="/courses" class="nav-link" :class="{ active: $route.path.startsWith('/courses') }">공연</router-link>
-        <router-link v-if="auth.isInstructor" to="/marketing" class="nav-link" :class="{ active: $route.path.startsWith('/marketing') }">AI 마케팅 센터</router-link>
-        <router-link v-else to="/enrollments" class="nav-link" :class="{ active: $route.path === '/enrollments' }">내 예매</router-link>
-=======
         <router-link
           to="/courses"
           class="nav-link"
@@ -30,21 +21,25 @@
         >
         <router-link
           v-if="auth.isInstructor"
+          to="/marketing"
+          class="nav-link"
+          :class="{ active: $route.path.startsWith('/marketing') }"
+          >AI 마케팅 센터</router-link
+        >
+        <router-link
+          v-if="auth.isInstructor"
           to="/sales-insight"
           class="nav-link"
           :class="{ active: $route.path === '/sales-insight' }"
+          >AI 판매 인사이트</router-link
         >
-          AI 판매 인사이트
-        </router-link>
         <router-link
           v-else
           to="/enrollments"
           class="nav-link"
           :class="{ active: $route.path === '/enrollments' }"
+          >내 예매</router-link
         >
-          내 예매
-        </router-link>
->>>>>>> main
       </nav>
 
       <!-- 우측 액션 -->
