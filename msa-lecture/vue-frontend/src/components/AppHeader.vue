@@ -21,20 +21,25 @@
         >
         <router-link
           v-if="auth.isInstructor"
+          to="/marketing"
+          class="nav-link"
+          :class="{ active: $route.path.startsWith('/marketing') }"
+          >AI 마케팅 센터</router-link
+        >
+        <router-link
+          v-if="auth.isInstructor"
           to="/sales-insight"
           class="nav-link"
           :class="{ active: $route.path === '/sales-insight' }"
+          >AI 판매 인사이트</router-link
         >
-          AI 판매 인사이트
-        </router-link>
         <router-link
           v-else
           to="/enrollments"
           class="nav-link"
           :class="{ active: $route.path === '/enrollments' }"
+          >내 예매</router-link
         >
-          내 예매
-        </router-link>
       </nav>
 
       <!-- 우측 액션 -->

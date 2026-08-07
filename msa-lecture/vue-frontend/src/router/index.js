@@ -37,6 +37,12 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/marketing',
+    name: 'MarketingCenter',
+    component: () => import('@/views/MarketingCenterView.vue'),
+    meta: { requiresAuth: true, instructorOnly: true }
+  },
+  {
     path: '/enrollments',
     name: 'Enrollment',
     component: () => import('@/views/EnrollmentView.vue'),
