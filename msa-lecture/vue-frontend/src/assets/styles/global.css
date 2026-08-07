@@ -170,7 +170,14 @@ img {
 }
 
 .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   margin-bottom: 7px;
+}
+
+.eyebrow-icon {
+  flex-shrink: 0;
 }
 
 .page-title {

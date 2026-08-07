@@ -5,7 +5,7 @@
     <main class="page-container">
       <section class="page-head">
         <div>
-          <span class="eyebrow">✦ MY TICKETNEXUS</span>
+          <span class="eyebrow"><Sparkle class="eyebrow-icon" :size="12" /> MY TICKETNEXUS</span>
           <h1 class="page-title">마이페이지</h1>
           <p class="page-subtitle">
             {{
@@ -96,7 +96,7 @@
               >
                 <div class="summary-label">AI 마케팅 센터</div>
                 <div class="summary-value summary-value-sm">
-                  홍보 채널·콘텐츠 추천 →
+                  홍보 채널·콘텐츠 추천 <ArrowRight :size="14" />
                 </div>
               </router-link>
             </section>
@@ -222,6 +222,7 @@ import { useRouter } from "vue-router";
 import AppHeader from "@/components/AppHeader.vue";
 import AppSidebar from "@/components/AppSidebar.vue";
 import CourseCard from "@/components/CourseCard.vue";
+import { Sparkle, ArrowRight } from "@lucide/vue";
 import { useAuthStore } from "@/store/auth.js";
 import { enrollmentApi } from "@/api/enrollment.js";
 import { courseApi } from "@/api/course.js";
@@ -559,6 +560,9 @@ onMounted(async () => {
 }
 
 .summary-value-sm {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 15px;
   font-weight: 700;
   color: var(--color-primary);

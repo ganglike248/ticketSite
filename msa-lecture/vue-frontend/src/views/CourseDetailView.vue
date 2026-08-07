@@ -8,10 +8,10 @@
           <!-- 좌측 상세 정보 -->
           <div class="detail-info fade-in-up">
             <router-link to="/courses" class="back-link">
-              <span aria-hidden="true">←</span> 공연 목록으로
+              <ArrowLeft :size="14" aria-hidden="true" /> 공연 목록으로
             </router-link>
 
-            <span class="eyebrow detail-eyebrow">✦ EVENT DETAIL</span>
+            <span class="eyebrow detail-eyebrow"><Sparkle class="eyebrow-icon" :size="12" /> EVENT DETAIL</span>
 
             <div class="badge-row">
               <span class="badge" :class="badgeClass">{{ displayCategory }}</span>
@@ -27,10 +27,10 @@
             </p>
 
             <div class="detail-meta">
-              <span class="meta-item">📅 {{ displaySchedule }}</span>
-              <span class="meta-item">📍 {{ displayVenue }}</span>
-              <span v-if="displayRuntime" class="meta-item">⏱️ {{ displayRuntime }}</span>
-              <span v-if="displayAgeRating" class="meta-item">🎫 {{ displayAgeRating }}</span>
+              <span class="meta-item"><Calendar :size="14" /> {{ displaySchedule }}</span>
+              <span class="meta-item"><MapPin :size="14" /> {{ displayVenue }}</span>
+              <span v-if="displayRuntime" class="meta-item"><Clock :size="14" /> {{ displayRuntime }}</span>
+              <span v-if="displayAgeRating" class="meta-item"><Ticket :size="14" /> {{ displayAgeRating }}</span>
             </div>
 
             <div class="detail-sub-meta">
@@ -44,7 +44,7 @@
             <div class="enroll-thumb" :class="thumbBg">
               <img v-if="thumbSrc" :src="thumbSrc" :alt="course.title" />
               <div v-else class="poster-placeholder">
-                <span class="poster-icon">🎟️</span>
+                <Ticket class="poster-icon" :size="52" />
                 <span class="poster-category">{{ displayCategory }}</span>
               </div>
             </div>
@@ -72,9 +72,9 @@
               </p>
 
               <ul class="enroll-info-list">
-                <li>✅ 결제 완료 후 예매 확정</li>
-                <li>✅ 내 예매 목록에서 상태 확인</li>
-                <li>✅ 현재 상품은 1인 1매 예매</li>
+                <li><CircleCheck :size="14" /> 결제 완료 후 예매 확정</li>
+                <li><CircleCheck :size="14" /> 내 예매 목록에서 상태 확인</li>
+                <li><CircleCheck :size="14" /> 현재 상품은 1인 1매 예매</li>
               </ul>
             </div>
           </div>
@@ -99,6 +99,7 @@ import AppHeader from '@/components/AppHeader.vue'
 import { useCourseStore } from '@/store/course.js'
 import { enrollmentApi } from '@/api/enrollment.js'
 import { useAuthStore } from '@/store/auth.js'
+import { ArrowLeft, Sparkle, Calendar, MapPin, Clock, Ticket, CircleCheck } from '@lucide/vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -559,6 +560,9 @@ watch(
 }
 
 .meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   min-width: 0;
   padding: 11px 13px;
   overflow: hidden;
@@ -569,6 +573,10 @@ watch(
   backdrop-filter: blur(10px);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.meta-item svg {
+  flex-shrink: 0;
 }
 
 .detail-sub-meta {
@@ -655,7 +663,6 @@ watch(
 }
 
 .poster-icon {
-  font-size: 60px;
   filter: drop-shadow(0 10px 14px rgba(15, 23, 42, 0.14));
 }
 
@@ -755,8 +762,16 @@ watch(
 }
 
 .enroll-info-list li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 13px;
   color: var(--color-text-secondary);
+}
+
+.enroll-info-list li svg {
+  flex-shrink: 0;
+  color: var(--color-success);
 }
 
 .error-msg {

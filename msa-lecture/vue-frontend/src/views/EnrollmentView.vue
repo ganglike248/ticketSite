@@ -5,7 +5,7 @@
     <main class="page-container">
       <section class="page-head">
         <div>
-          <span class="eyebrow">✦ MY TICKETS</span>
+          <span class="eyebrow"><Sparkle class="eyebrow-icon" :size="12" /> MY TICKETS</span>
           <h1 class="page-title">내 티켓 목록</h1>
           <p class="page-subtitle">예매한 공연과 예매 상태를 확인하세요.</p>
         </div>
@@ -63,7 +63,7 @@
             </div>
 
             <div v-else class="empty-state">
-              <p class="empty-icon">📭</p>
+              <Inbox class="empty-icon" :size="40" />
               <p>구매한 티켓이 없습니다.</p>
               <router-link
                 to="/courses"
@@ -85,6 +85,7 @@ import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import AppHeader from "@/components/AppHeader.vue";
 import AppSidebar from "@/components/AppSidebar.vue";
+import { Sparkle, Inbox } from "@lucide/vue";
 import { enrollmentApi } from "@/api/enrollment.js";
 import { useAuthStore } from "@/store/auth.js";
 
@@ -275,8 +276,7 @@ onMounted(async () => {
 }
 
 .empty-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
+  margin: 0 auto 12px;
 }
 
 .loading-center {

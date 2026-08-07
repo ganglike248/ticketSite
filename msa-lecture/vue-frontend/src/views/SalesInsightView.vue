@@ -6,7 +6,7 @@
       <section class="page-heading fade-in-up">
         <div>
           <div class="eyebrow">
-            <span class="eyebrow-spark">✦</span>
+            <Sparkle class="eyebrow-spark" :size="15" />
             AI SALES COPILOT
           </div>
           <h1>AI 판매 인사이트</h1>
@@ -387,7 +387,9 @@
               </div>
               <div class="review-summary">
                 <div class="rating-row">
-                  <span class="stars">★★★★★</span>
+                  <span class="stars">
+                    <Star v-for="n in 5" :key="n" :size="13" fill="currentColor" />
+                  </span>
                   <strong>{{ activeInsight.review.rating }}</strong>
                 </div>
                 <p>{{ activeInsight.review.summary }}</p>
@@ -400,7 +402,9 @@
             </div>
 
             <div class="improvement-box">
-              <div class="improvement-icon" aria-hidden="true">✦</div>
+              <div class="improvement-icon" aria-hidden="true">
+              <Sparkle :size="16" />
+            </div>
               <div>
                 <span>다음 공연 개선 제안</span>
                 <strong>{{ activeInsight.review.improvement }}</strong>
@@ -426,6 +430,7 @@
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import AppHeader from "@/components/AppHeader.vue";
+import { Sparkle, Star } from "@lucide/vue";
 import { courseApi } from "@/api/course.js";
 import { useAuthStore } from "@/store/auth.js";
 import { useCourseStore } from "@/store/course.js";
@@ -822,7 +827,7 @@ onMounted(loadCourses);
 }
 
 .eyebrow-spark {
-  font-size: 15px;
+  flex-shrink: 0;
 }
 
 .page-heading h1 {
@@ -1589,9 +1594,10 @@ onMounted(loadCourses);
 }
 
 .stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
   color: #f0a83b;
-  font-size: 13px;
-  letter-spacing: 1px;
 }
 
 .rating-row strong {

@@ -4,13 +4,13 @@
       <div v-if="isOpen" class="chat-panel">
         <div class="chat-header">
           <div class="chat-header-title">
-            <span class="chat-header-icon">🎫</span>
+            <Ticket class="chat-header-icon" :size="20" />
             <div>
               <p class="chat-header-name">TicketNexus 도우미</p>
               <p class="chat-header-sub">자주 묻는 질문에 답해드려요</p>
             </div>
           </div>
-          <button class="chat-close-btn" @click="isOpen = false" aria-label="닫기">✕</button>
+          <button class="chat-close-btn" @click="isOpen = false" aria-label="닫기"><X :size="16" /></button>
         </div>
 
         <div ref="messageListEl" class="chat-messages">
@@ -54,14 +54,15 @@
     </transition>
 
     <button class="chat-toggle-btn" @click="isOpen = !isOpen" aria-label="AI 챗봇 열기">
-      <span v-if="!isOpen">💬</span>
-      <span v-else>✕</span>
+      <MessageCircle v-if="!isOpen" :size="26" />
+      <X v-else :size="26" />
     </button>
   </div>
 </template>
 
 <script setup>
 import { ref, nextTick } from 'vue'
+import { Ticket, MessageCircle, X } from '@lucide/vue'
 
 const isOpen = ref(false)
 const isTyping = ref(false)
@@ -139,7 +140,6 @@ function sendTyped() {
   border-radius: 50%;
   background: var(--color-primary);
   color: #fff;
-  font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,13 +173,13 @@ function sendTyped() {
   color: #fff;
 }
 .chat-header-title { display: flex; align-items: center; gap: 10px; }
-.chat-header-icon { font-size: 20px; }
+.chat-header-icon { flex-shrink: 0; }
 .chat-header-name { font-size: 14px; font-weight: 700; }
 .chat-header-sub { font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 1px; }
 .chat-close-btn {
+  display: flex;
   background: transparent;
   color: #fff;
-  font-size: 14px;
   opacity: 0.85;
 }
 .chat-close-btn:hover { opacity: 1; }

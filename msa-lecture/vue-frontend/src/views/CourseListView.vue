@@ -5,7 +5,7 @@
 		<main class="page-container">
 			<section class="page-head">
 				<div>
-					<span class="eyebrow">✦ EXPLORE EVENTS</span>
+					<span class="eyebrow"><Sparkle class="eyebrow-icon" :size="12" /> EXPLORE EVENTS</span>
 					<h1 class="page-title">공연 목록</h1>
 					<p class="page-subtitle" v-if="isInstructor">
 						주최자 계정으로 등록된 공연을 확인하고 새 공연을 추가할 수 있습니다.
@@ -86,6 +86,7 @@ import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import AppHeader from "@/components/AppHeader.vue";
 import AppSidebar from "@/components/AppSidebar.vue";
+import { Sparkle } from "@lucide/vue";
 import CourseCard from "@/components/CourseCard.vue";
 import { useCourseStore } from "@/store/course.js";
 import { useAuthStore } from "@/store/auth.js";

@@ -2,8 +2,15 @@
   <router-link :to="`/courses/${course.id}`" class="course-card">
     <!-- 썸네일 -->
     <div class="card-thumb" :class="thumbBg">
-      <img v-if="thumbSrc" :src="thumbSrc" :alt="course.title" class="thumb-img" />
-      <div v-else class="thumb-placeholder">{{ course.category?.charAt(0) }}</div>
+      <img
+        v-if="thumbSrc"
+        :src="thumbSrc"
+        :alt="course.title"
+        class="thumb-img"
+      />
+      <div v-else class="thumb-placeholder">
+        {{ course.category?.charAt(0) }}
+      </div>
     </div>
 
     <!-- 내용 -->
@@ -15,35 +22,43 @@
         <span class="price">₩{{ Number(course.price).toLocaleString() }}</span>
       </div>
       <div class="card-footer">
-        <span class="enrolled">수강생 {{ course.enrollmentCount?.toLocaleString() }}명</span>
+        <span class="enrolled"
+          >예매자 {{ course.enrollmentCount?.toLocaleString() }}명</span
+        >
       </div>
     </div>
   </router-link>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useCourseStore } from '@/store/course.js'
+import { computed } from "vue";
+import { useCourseStore } from "@/store/course.js";
 
 const props = defineProps({
-  course: { type: Object, required: true }
-})
+  course: { type: Object, required: true },
+});
 
-const courseStore = useCourseStore()
+const courseStore = useCourseStore();
 
 const categoryConfig = {
-  '콘서트':   { bg: 'thumb-teal',   badge: 'badge-teal' },
-  '뮤지컬':   { bg: 'thumb-blue',   badge: 'badge-blue' },
-  '연극':     { bg: 'thumb-amber',  badge: 'badge-amber' },
-  '클래식':   { bg: 'thumb-purple', badge: 'badge-purple' },
-  '페스티벌': { bg: 'thumb-pink',   badge: 'badge-pink' },
-}
+  콘서트: { bg: "thumb-teal", badge: "badge-teal" },
+  뮤지컬: { bg: "thumb-blue", badge: "badge-blue" },
+  연극: { bg: "thumb-amber", badge: "badge-amber" },
+  클래식: { bg: "thumb-purple", badge: "badge-purple" },
+  페스티벌: { bg: "thumb-pink", badge: "badge-pink" },
+};
 
-const config = computed(() => categoryConfig[props.course.category] || { bg: 'thumb-gray', badge: 'badge-gray' })
-const thumbBg = computed(() => config.value.bg)
-const badgeClass = computed(() => config.value.badge)
+const config = computed(
+  () =>
+    categoryConfig[props.course.category] || {
+      bg: "thumb-gray",
+      badge: "badge-gray",
+    },
+);
+const thumbBg = computed(() => config.value.bg);
+const badgeClass = computed(() => config.value.badge);
 
-const thumbSrc = computed(() => courseStore.getThumbnail(props.course))
+const thumbSrc = computed(() => courseStore.getThumbnail(props.course));
 </script>
 
 <style scoped>
@@ -69,12 +84,24 @@ const thumbSrc = computed(() => courseStore.getThumbnail(props.course))
   justify-content: center;
   overflow: hidden;
 }
-.thumb-teal   { background: #E1F5EE; }
-.thumb-blue   { background: #E6F1FB; }
-.thumb-amber  { background: #FAEEDA; }
-.thumb-purple { background: #EEEDFE; }
-.thumb-pink   { background: #FBEAF0; }
-.thumb-gray   { background: #F1EFE8; }
+.thumb-teal {
+  background: #e1f5ee;
+}
+.thumb-blue {
+  background: #e6f1fb;
+}
+.thumb-amber {
+  background: #faeeda;
+}
+.thumb-purple {
+  background: #eeedfe;
+}
+.thumb-pink {
+  background: #fbeaf0;
+}
+.thumb-gray {
+  background: #f1efe8;
+}
 .thumb-img {
   width: 100%;
   height: 100%;

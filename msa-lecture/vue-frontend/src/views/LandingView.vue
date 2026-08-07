@@ -53,7 +53,7 @@
       <!-- 검색 -->
       <section class="search-section">
         <form class="search-bar" @submit.prevent="handleSearch">
-          <span class="search-icon">🔍</span>
+          <Search class="search-icon" :size="16" />
           <input
             v-model="searchQuery"
             type="text"
@@ -70,7 +70,9 @@
             to="/login"
             class="quick-category"
           >
-            <span class="qc-icon">{{ qc.icon }}</span>
+            <span class="qc-icon">
+              <component :is="qc.icon" :size="22" />
+            </span>
             <span class="qc-label">{{ qc.label }}</span>
           </router-link>
         </div>
@@ -84,7 +86,7 @@
             <h2 class="section-title">실시간 예매 랭킹</h2>
           </div>
           <router-link to="/login" class="section-link"
-            >전체 보기 →</router-link
+            >전체 보기 <ArrowRight :size="14" /></router-link
           >
         </div>
         <div class="card-surface section-body">
@@ -125,7 +127,7 @@
             <h2 class="section-title">오픈예정 공연</h2>
           </div>
           <router-link to="/login" class="section-link"
-            >전체 보기 →</router-link
+            >전체 보기 <ArrowRight :size="14" /></router-link
           >
         </div>
         <div class="card-surface section-body">
@@ -150,9 +152,8 @@
                   :class="{ notified: notifiedIds.has(show.id) }"
                   @click="toggleNotify(show.id)"
                 >
-                  {{
-                    notifiedIds.has(show.id) ? "✓ 신청 완료" : "오픈 알림 신청"
-                  }}
+                  <Check v-if="notifiedIds.has(show.id)" :size="14" />
+                  {{ notifiedIds.has(show.id) ? "신청 완료" : "오픈 알림 신청" }}
                 </button>
               </div>
             </div>
@@ -168,7 +169,7 @@
             <h2 class="section-title">할인 중인 티켓</h2>
           </div>
           <router-link to="/login" class="section-link"
-            >전체 보기 →</router-link
+            >전체 보기 <ArrowRight :size="14" /></router-link
           >
         </div>
         <div class="card-surface section-body">
@@ -216,7 +217,7 @@
             <h2 class="section-title">장르별 공연</h2>
           </div>
           <router-link to="/login" class="section-link"
-            >전체 보기 →</router-link
+            >전체 보기 <ArrowRight :size="14" /></router-link
           >
         </div>
 
@@ -290,6 +291,17 @@
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import AppHeader from "@/components/AppHeader.vue";
+import {
+  Search,
+  ArrowRight,
+  Check,
+  Mic,
+  Drama,
+  Theater,
+  Piano,
+  Tent,
+  Trophy,
+} from "@lucide/vue";
 
 import concertImg from "@/assets/images/courses/concert1.jpg";
 import musicalImg from "@/assets/images/courses/musical1.jpg";
@@ -414,12 +426,12 @@ function handleSearch() {
 }
 
 const quickCategories = [
-  { icon: "🎤", label: "콘서트" },
-  { icon: "🎭", label: "뮤지컬" },
-  { icon: "🎬", label: "연극" },
-  { icon: "🎻", label: "클래식" },
-  { icon: "🎪", label: "페스티벌" },
-  { icon: "⚾", label: "스포츠" },
+  { icon: Mic, label: "콘서트" },
+  { icon: Drama, label: "뮤지컬" },
+  { icon: Theater, label: "연극" },
+  { icon: Piano, label: "클래식" },
+  { icon: Tent, label: "페스티벌" },
+  { icon: Trophy, label: "스포츠" },
 ];
 
 const upcomingShows = [
@@ -656,7 +668,8 @@ const genreFilteredCourses = computed(() => {
   border-color: var(--color-primary);
 }
 .search-icon {
-  font-size: 15px;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
 }
 .search-input {
   flex: 1;
@@ -697,7 +710,6 @@ const genreFilteredCourses = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
   transition: var(--transition);
 }
 .quick-category:hover .qc-icon {
@@ -728,6 +740,9 @@ const genreFilteredCourses = computed(() => {
   color: var(--color-text-primary);
 }
 .section-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   font-size: 14px;
   color: var(--color-primary);
   font-weight: 600;
@@ -851,6 +866,10 @@ const genreFilteredCourses = computed(() => {
   color: var(--color-text-secondary);
 }
 .notify-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   margin-top: 6px;
   padding: 8px 0;
   border-radius: var(--radius-md);

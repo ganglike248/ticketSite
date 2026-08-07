@@ -8,7 +8,7 @@
         class="sidebar-item"
         :class="{ active: $route.path.startsWith('/courses') }"
       >
-        <span class="si-icon">📚</span> 공연 목록
+        <BookOpen class="si-icon" :size="16" /> 공연 목록
       </router-link>
 
       <router-link
@@ -17,7 +17,7 @@
         class="sidebar-item"
         :class="{ active: $route.path === '/enrollments' }"
       >
-        <span class="si-icon">✅</span> 내 예매 목록
+        <Ticket class="si-icon" :size="16" /> 내 예매 목록
       </router-link>
 
       <router-link
@@ -25,7 +25,7 @@
         class="sidebar-item"
         :class="{ active: $route.path === '/mypage' }"
       >
-        <span class="si-icon">⭐</span> 마이페이지
+        <Star class="si-icon" :size="16" /> 마이페이지
       </router-link>
 
       <router-link
@@ -34,7 +34,7 @@
         class="sidebar-item"
         :class="{ active: $route.path.startsWith('/marketing') }"
       >
-        <span class="si-icon">📣</span> AI 마케팅 센터
+        <Megaphone class="si-icon" :size="16" /> AI 마케팅 센터
       </router-link>
 
       <router-link
@@ -43,14 +43,14 @@
         class="sidebar-item"
         :class="{ active: $route.path === '/sales-insight' }"
       >
-        <span class="si-icon">✨</span> AI 판매 인사이트
+        <Sparkles class="si-icon" :size="16" /> AI 판매 인사이트
       </router-link>
     </div>
 
     <div class="sidebar-section">
       <div class="sidebar-label">계정</div>
       <button class="sidebar-item sidebar-btn" @click="handleLogout">
-        <span class="si-icon">🚪</span> 로그아웃
+        <LogOut class="si-icon" :size="16" /> 로그아웃
       </button>
     </div>
   </aside>
@@ -59,6 +59,14 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth.js";
+import {
+  BookOpen,
+  Ticket,
+  Star,
+  Megaphone,
+  Sparkles,
+  LogOut,
+} from "@lucide/vue";
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -128,7 +136,7 @@ function handleLogout() {
 }
 
 .si-icon {
-  font-size: 15px;
+  flex-shrink: 0;
 }
 
 @media (max-width: 992px) {

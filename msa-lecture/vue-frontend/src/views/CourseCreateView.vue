@@ -5,7 +5,7 @@
     <main class="page-container">
       <section class="page-head">
         <div>
-          <span class="eyebrow">✦ NEW EVENT</span>
+          <span class="eyebrow"><Sparkle class="eyebrow-icon" :size="12" /> NEW EVENT</span>
           <h1 class="page-title">공연 등록</h1>
           <p class="page-subtitle">
             주최자 계정으로 새로운 공연을 등록합니다.
@@ -114,6 +114,7 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import AppHeader from "@/components/AppHeader.vue";
 import AppSidebar from "@/components/AppSidebar.vue";
+import { Sparkle } from "@lucide/vue";
 import { courseApi } from "@/api/course.js";
 import { useAuthStore } from "@/store/auth.js";
 

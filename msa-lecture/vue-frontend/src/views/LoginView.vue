@@ -21,11 +21,11 @@
       <!-- 우측 -->
       <div class="login-right">
         <div class="login-box fade-in-up">
-          <router-link to="/" class="back-link">← 홈으로</router-link>
+          <router-link to="/" class="back-link"><ArrowLeft :size="14" /> 홈으로</router-link>
 
           <!-- 로그인 영역 -->
           <div v-if="!showRegister" class="section">
-            <span class="eyebrow">✦ WELCOME BACK</span>
+            <span class="eyebrow"><Sparkle class="eyebrow-icon" :size="12" /> WELCOME BACK</span>
             <h3 class="section-title">로그인</h3>
             <p class="section-desc">TicketNexus 계정으로 로그인합니다.</p>
             <button class="btn btn-primary btn-full" @click="handleOAuth">로그인</button>
@@ -37,7 +37,7 @@
 
           <!-- 회원가입 영역 -->
           <div v-else class="section">
-            <span class="eyebrow">✦ JOIN TICKETNEXUS</span>
+            <span class="eyebrow"><Sparkle class="eyebrow-icon" :size="12" /> JOIN TICKETNEXUS</span>
             <h3 class="section-title">회원가입</h3>
             <form @submit.prevent="handleRegister" class="form">
               <div class="form-group">
@@ -82,6 +82,7 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/store/auth.js'
 import { authApi } from '@/api/auth.js'
+import { ArrowLeft, Sparkle } from '@lucide/vue'
 
 const auth = useAuthStore()
 
@@ -166,7 +167,9 @@ async function handleRegister() {
   padding: 32px;
 }
 .back-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 13px;
   color: var(--color-text-secondary);
   margin-bottom: 32px;
