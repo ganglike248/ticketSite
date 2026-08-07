@@ -3,20 +3,20 @@
     <div class="header-inner">
       <!-- 로고 -->
       <router-link to="/" class="logo">
-        <img src="@/assets/images/logo/main_logo.png" alt="LearnNexus" class="logo-img" />
-        <span class="logo-text">LearnNexus</span>
+        <img src="@/assets/images/logo/main_logo.png" alt="TicketNexus" class="logo-img" />
+        <span class="logo-text">TicketNexus</span>
       </router-link>
 
       <!-- 네비게이션 -->
       <nav class="nav-links" v-if="auth.isAuthenticated">
-        <router-link to="/courses" class="nav-link" :class="{ active: $route.path.startsWith('/courses') }">강의</router-link>
-        <router-link to="/enrollments" class="nav-link" :class="{ active: $route.path === '/enrollments' }">내 학습</router-link>
+        <router-link to="/courses" class="nav-link" :class="{ active: $route.path.startsWith('/courses') }">공연</router-link>
+        <router-link v-if="auth.isInstructor" to="/marketing" class="nav-link" :class="{ active: $route.path.startsWith('/marketing') }">AI 마케팅 센터</router-link>
+        <router-link v-else to="/enrollments" class="nav-link" :class="{ active: $route.path === '/enrollments' }">내 예매</router-link>
       </nav>
 
       <!-- 우측 액션 -->
       <div class="header-actions">
         <template v-if="auth.isAuthenticated">
-          <router-link v-if="auth.isInstructor" to="/marketing" class="btn btn-outline btn-sm">AI 마케팅 센터</router-link>
           <router-link to="/mypage" class="user-avatar" :title="auth.user?.name">
             {{ auth.user?.name?.charAt(0) || '?' }}
           </router-link>
