@@ -1,0 +1,1 @@
+var e=`/assets/main_logo-DNXCvT3y.png`;export{e as t};
