@@ -25,6 +25,7 @@
 
           <!-- 로그인 영역 -->
           <div v-if="!showRegister" class="section">
+            <span class="eyebrow">✦ WELCOME BACK</span>
             <h3 class="section-title">로그인</h3>
             <p class="section-desc">TicketNexus 계정으로 로그인합니다.</p>
             <button class="btn btn-primary btn-full" @click="handleOAuth">로그인</button>
@@ -36,6 +37,7 @@
 
           <!-- 회원가입 영역 -->
           <div v-else class="section">
+            <span class="eyebrow">✦ JOIN TICKETNEXUS</span>
             <h3 class="section-title">회원가입</h3>
             <form @submit.prevent="handleRegister" class="form">
               <div class="form-group">
@@ -129,7 +131,7 @@ async function handleRegister() {
   min-height: 100vh;
 }
 .login-left {
-  background: linear-gradient(160deg, #1a4f8a 0%, #185FA5 50%, #1e7bc4 100%);
+  background: linear-gradient(160deg, #4a3aa0 0%, #6654d9 50%, #8172e6 100%);
   padding: 48px;
   display: flex;
   flex-direction: column;
@@ -152,9 +154,17 @@ async function handleRegister() {
   align-items: center;
   justify-content: center;
   padding: 48px;
-  background: var(--color-bg-primary);
+  background: var(--color-bg-secondary);
 }
-.login-box { width: 100%; max-width: 400px; }
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 32px;
+}
 .back-link {
   display: inline-block;
   font-size: 13px;

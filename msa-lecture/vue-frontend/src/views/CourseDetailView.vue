@@ -11,6 +11,8 @@
               <span aria-hidden="true">←</span> 공연 목록으로
             </router-link>
 
+            <span class="eyebrow detail-eyebrow">✦ EVENT DETAIL</span>
+
             <div class="badge-row">
               <span class="badge" :class="badgeClass">{{ displayCategory }}</span>
               <span class="sale-status" :class="{ 'sale-status-closed': isSalesClosed }">
@@ -405,16 +407,16 @@ watch(
 <style scoped>
 .page-wrapper {
   min-height: 100vh;
-  background: #f7f9fc;
+  background: var(--color-bg-secondary);
 }
 
 .detail-hero {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(circle at 82% 12%, rgba(55, 138, 221, 0.18), transparent 28%),
-    radial-gradient(circle at 10% 90%, rgba(83, 74, 183, 0.1), transparent 30%),
-    linear-gradient(135deg, #f7fbff 0%, #eaf4ff 52%, #f5f2ff 100%);
+    radial-gradient(circle at 82% 12%, rgba(102, 84, 217, 0.18), transparent 28%),
+    radial-gradient(circle at 10% 90%, rgba(129, 114, 230, 0.12), transparent 30%),
+    linear-gradient(135deg, #f8f7ff 0%, #eee9ff 52%, #f5f2ff 100%);
   border-bottom: 1px solid var(--color-border);
   padding: 56px 0 72px;
 }
@@ -432,7 +434,7 @@ watch(
   right: -80px;
   width: 360px;
   height: 360px;
-  border: 1px solid rgba(24, 95, 165, 0.09);
+  border: 1px solid rgba(102, 84, 217, 0.09);
 }
 
 .detail-hero::after {
@@ -476,6 +478,10 @@ watch(
 .back-link:hover {
   color: var(--color-primary);
   transform: translateX(-2px);
+}
+
+.detail-eyebrow {
+  margin-top: 4px;
 }
 
 .badge-row {
@@ -559,7 +565,7 @@ watch(
   border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.68);
-  box-shadow: 0 8px 24px rgba(24, 95, 165, 0.04);
+  box-shadow: 0 8px 24px rgba(102, 84, 217, 0.04);
   backdrop-filter: blur(10px);
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -589,13 +595,13 @@ watch(
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 24px 60px rgba(24, 95, 165, 0.16), 0 6px 18px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 24px 60px rgba(102, 84, 217, 0.16), 0 6px 18px rgba(15, 23, 42, 0.08);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .enroll-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 30px 70px rgba(24, 95, 165, 0.2), 0 8px 22px rgba(15, 23, 42, 0.09);
+  box-shadow: 0 30px 70px rgba(102, 84, 217, 0.2), 0 8px 22px rgba(15, 23, 42, 0.09);
 }
 
 .enroll-thumb {
@@ -681,7 +687,7 @@ watch(
   height: 24px;
   content: '';
   border-radius: 50%;
-  background: #edf5fd;
+  background: var(--color-primary-light);
 }
 
 .enroll-body::before {
@@ -721,7 +727,7 @@ watch(
   font-size: 15px;
   font-weight: 700;
   justify-content: center;
-  box-shadow: 0 10px 20px rgba(24, 95, 165, 0.2);
+  box-shadow: 0 10px 20px rgba(102, 84, 217, 0.2);
 }
 
 .btn-full:not(:disabled) {

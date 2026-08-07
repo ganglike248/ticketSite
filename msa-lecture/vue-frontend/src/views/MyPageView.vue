@@ -1,203 +1,218 @@
 <template>
   <div class="page-wrapper">
     <AppHeader />
-    <div class="page-layout">
-      <aside class="sidebar">
-        <div class="sidebar-section">
-          <div class="sidebar-label">메뉴</div>
 
-          <router-link to="/courses" class="sidebar-item">
-            <span class="si-icon">📚</span> 공연 목록
-          </router-link>
-
-          <router-link
-            v-if="!isInstructor"
-            to="/enrollments"
-            class="sidebar-item"
-          >
-            <span class="si-icon">✅</span> 내 예매 목록
-          </router-link>
-
-          <router-link to="/mypage" class="sidebar-item active">
-            <span class="si-icon">⭐</span> 마이페이지
-          </router-link>
-
-          <router-link
-            v-if="isInstructor"
-            to="/sales-insight"
-            class="sidebar-item"
-          >
-            <span class="si-icon">✨</span> AI 판매 인사이트
-          </router-link>
-        </div>
-
-        <div class="sidebar-section">
-          <div class="sidebar-label">계정</div>
-          <button class="sidebar-item sidebar-btn" @click="handleLogout">
-            <span class="si-icon">🚪</span> 로그아웃
-          </button>
-        </div>
-      </aside>
-
-      <main class="main-content">
-        <!-- 프로필 카드 -->
-        <div class="profile-card fade-in-up">
-          <div class="profile-avatar">
-            {{ auth.user?.name?.charAt(0) || "?" }}
-          </div>
-          <div class="profile-info">
-            <h2 class="profile-name">{{ auth.user?.name || "사용자" }}</h2>
-            <p class="profile-email">{{ auth.user?.email || "-" }}</p>
-            <span
-              class="badge"
-              :class="isInstructor ? 'badge-amber' : 'badge-blue'"
-            >
-              {{ isInstructor ? "주최자" : "관객" }}
-            </span>
-          </div>
-        </div>
-
-        <!-- 관객 화면 -->
-        <section v-if="!isInstructor" class="recommend-section">
-          <h3 class="section-title">추천 공연</h3>
-
-          <p v-if="recommendMessage" class="recommend-message">
-            {{ recommendMessage }}
+    <main class="page-container">
+      <section class="page-head">
+        <div>
+          <span class="eyebrow">✦ MY TICKETNEXUS</span>
+          <h1 class="page-title">마이페이지</h1>
+          <p class="page-subtitle">
+            {{
+              isInstructor
+                ? "주최자 계정 정보와 등록한 공연 현황을 확인하세요."
+                : "계정 정보와 나에게 맞는 추천 공연을 확인하세요."
+            }}
           </p>
+        </div>
+      </section>
 
-          <div v-if="recommendLoading" class="loading-row">
-            <div v-for="i in 3" :key="i" class="skeleton-card">
-              <div class="skeleton-thumb"></div>
-              <div class="skeleton-body">
-                <div class="skeleton-line short"></div>
-                <div class="skeleton-line"></div>
+      <div class="page-body">
+        <AppSidebar />
+
+        <div class="main-content">
+          <!-- 프로필 카드 -->
+          <section class="profile-card card-surface fade-in-up">
+            <div class="profile-avatar">
+              {{ auth.user?.name?.charAt(0) || "?" }}
+            </div>
+            <div class="profile-info">
+              <h2 class="profile-name">{{ auth.user?.name || "사용자" }}</h2>
+              <p class="profile-email">{{ auth.user?.email || "-" }}</p>
+              <span
+                class="badge"
+                :class="isInstructor ? 'badge-amber' : 'badge-blue'"
+              >
+                {{ isInstructor ? "주최자" : "관객" }}
+              </span>
+            </div>
+          </section>
+
+          <!-- 관객 화면 -->
+          <section v-if="!isInstructor" class="card-surface recommend-section">
+            <div class="card-heading-row">
+              <div>
+                <div class="section-kicker">RECOMMENDED FOR YOU</div>
+                <h2>추천 공연</h2>
               </div>
             </div>
-          </div>
 
-          <div
-            v-else-if="recommendations.length"
-            class="recommend-grid fade-in"
-          >
-            <CourseCard v-for="c in recommendations" :key="c.id" :course="c" />
-          </div>
+            <p v-if="recommendMessage" class="recommend-message">
+              {{ recommendMessage }}
+            </p>
 
-          <p v-else-if="recommendError" class="empty-text">
-            {{ recommendError }}
-          </p>
-
-          <p v-else class="empty-text">아직 추천할 공연이 없습니다.</p>
-        </section>
-
-        <!-- 주최자 화면 -->
-        <section v-else class="instructor-section">
-          <div class="section-head">
-            <h3 class="section-title">내가 등록한 공연</h3>
-            <span class="section-subtitle"
-              >등록한 공연과 공연별 예매 인원을 확인할 수 있습니다.</span
-            >
-          </div>
-
-          <div class="summary-cards">
-            <div class="summary-card">
-              <div class="summary-label">등록 공연 수</div>
-              <div class="summary-value">{{ myCourses.length }}</div>
-            </div>
-            <div class="summary-card">
-              <div class="summary-label">총 예매 인원</div>
-              <div class="summary-value">{{ totalEnrollmentCount }}</div>
-            </div>
-          </div>
-
-          <div v-if="instructorLoading" class="loading-row instructor-loading">
-            <div v-for="i in 3" :key="i" class="skeleton-card">
-              <div class="skeleton-thumb"></div>
-              <div class="skeleton-body">
-                <div class="skeleton-line short"></div>
-                <div class="skeleton-line"></div>
+            <div v-if="recommendLoading" class="loading-row">
+              <div v-for="i in 3" :key="i" class="skeleton-card">
+                <div class="skeleton-thumb"></div>
+                <div class="skeleton-body">
+                  <div class="skeleton-line short"></div>
+                  <div class="skeleton-line"></div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div
-            v-else-if="myCourses.length"
-            class="instructor-course-list fade-in"
-          >
             <div
-              v-for="course in myCourses"
-              :key="course.id"
-              class="instructor-course-card"
+              v-else-if="recommendations.length"
+              class="recommend-grid fade-in"
             >
-              <div class="course-card-top">
-                <div>
-                  <h4 class="course-title">{{ course.title }}</h4>
-                  <p class="course-desc">
-                    {{ course.description || "공연 설명이 없습니다." }}
-                  </p>
+              <CourseCard
+                v-for="c in recommendations"
+                :key="c.id"
+                :course="c"
+              />
+            </div>
+
+            <p v-else-if="recommendError" class="empty-text">
+              {{ recommendError }}
+            </p>
+
+            <p v-else class="empty-text">아직 추천할 공연이 없습니다.</p>
+          </section>
+
+          <!-- 주최자 화면 -->
+          <template v-else>
+            <section class="summary-cards">
+              <div class="summary-card card-surface">
+                <div class="summary-label">등록 공연 수</div>
+                <div class="summary-value">{{ myCourses.length }}</div>
+              </div>
+              <div class="summary-card card-surface">
+                <div class="summary-label">총 예매 인원</div>
+                <div class="summary-value">{{ totalEnrollmentCount }}</div>
+              </div>
+              <router-link
+                to="/marketing"
+                class="summary-card summary-link card-surface"
+              >
+                <div class="summary-label">AI 마케팅 센터</div>
+                <div class="summary-value summary-value-sm">
+                  홍보 채널·콘텐츠 추천 →
                 </div>
-                <span
-                  class="status-badge"
-                  :class="
-                    course.status === 'ACTIVE'
-                      ? 'status-active'
-                      : 'status-inactive'
-                  "
-                >
-                  {{ course.status || "UNKNOWN" }}
-                </span>
+              </router-link>
+            </section>
+
+            <section class="card-surface instructor-section">
+              <div class="card-heading-row">
+                <div>
+                  <div class="section-kicker">MY EVENTS</div>
+                  <h2>내가 등록한 공연</h2>
+                  <span class="section-subtitle"
+                    >등록한 공연과 공연별 예매 인원을 확인할 수 있습니다.</span
+                  >
+                </div>
+                <router-link to="/courses/new" class="btn btn-primary btn-sm">
+                  공연 등록
+                </router-link>
               </div>
 
-              <div class="course-meta-grid">
-                <div class="meta-box">
-                  <div class="meta-label">장르</div>
-                  <div class="meta-value">{{ course.category || "-" }}</div>
-                </div>
-                <div class="meta-box">
-                  <div class="meta-label">티켓 가격</div>
-                  <div class="meta-value">{{ formatPrice(course.price) }}</div>
-                </div>
-                <div class="meta-box">
-                  <div class="meta-label">예매 인원</div>
-                  <div class="meta-value">
-                    {{
-                      course.enrollment_count ?? course.enrollmentCount ?? 0
-                    }}명
+              <div
+                v-if="instructorLoading"
+                class="loading-row instructor-loading"
+              >
+                <div v-for="i in 3" :key="i" class="skeleton-card">
+                  <div class="skeleton-thumb"></div>
+                  <div class="skeleton-body">
+                    <div class="skeleton-line short"></div>
+                    <div class="skeleton-line"></div>
                   </div>
                 </div>
-                <div class="meta-box">
-                  <div class="meta-label">공연 ID</div>
-                  <div class="meta-value">#{{ course.id }}</div>
+              </div>
+
+              <div
+                v-else-if="myCourses.length"
+                class="instructor-course-list fade-in"
+              >
+                <div
+                  v-for="course in myCourses"
+                  :key="course.id"
+                  class="instructor-course-card"
+                >
+                  <div class="course-card-top">
+                    <div>
+                      <h3 class="course-title">{{ course.title }}</h3>
+                      <p class="course-desc">
+                        {{ course.description || "공연 설명이 없습니다." }}
+                      </p>
+                    </div>
+                    <span
+                      class="status-badge"
+                      :class="
+                        course.status === 'ACTIVE'
+                          ? 'status-active'
+                          : 'status-inactive'
+                      "
+                    >
+                      {{ course.status || "UNKNOWN" }}
+                    </span>
+                  </div>
+
+                  <div class="course-meta-grid">
+                    <div class="meta-box">
+                      <div class="meta-label">장르</div>
+                      <div class="meta-value">{{ course.category || "-" }}</div>
+                    </div>
+                    <div class="meta-box">
+                      <div class="meta-label">티켓 가격</div>
+                      <div class="meta-value">
+                        {{ formatPrice(course.price) }}
+                      </div>
+                    </div>
+                    <div class="meta-box">
+                      <div class="meta-label">예매 인원</div>
+                      <div class="meta-value">
+                        {{
+                          course.enrollment_count ??
+                          course.enrollmentCount ??
+                          0
+                        }}명
+                      </div>
+                    </div>
+                    <div class="meta-box">
+                      <div class="meta-label">공연 ID</div>
+                      <div class="meta-value">#{{ course.id }}</div>
+                    </div>
+                  </div>
+
+                  <div class="course-card-actions">
+                    <router-link
+                      :to="{
+                        name: 'SalesInsight',
+                        query: { courseId: course.id },
+                      }"
+                      class="action-btn action-secondary"
+                    >
+                      AI 판매 분석
+                    </router-link>
+                    <router-link
+                      :to="`/courses/${course.id}`"
+                      class="action-btn action-primary"
+                    >
+                      공연 상세보기
+                    </router-link>
+                  </div>
                 </div>
               </div>
 
-              <div class="course-card-actions">
-                <router-link
-                  :to="{
-                    name: 'SalesInsight',
-                    query: { courseId: course.id },
-                  }"
-                  class="action-btn action-secondary"
-                >
-                  AI 판매 분석
-                </router-link>
-                <router-link
-                  :to="`/courses/${course.id}`"
-                  class="action-btn action-primary"
-                >
-                  공연 상세보기
-                </router-link>
-              </div>
-            </div>
-          </div>
+              <p v-else-if="instructorError" class="empty-text">
+                {{ instructorError }}
+              </p>
 
-          <p v-else-if="instructorError" class="empty-text">
-            {{ instructorError }}
-          </p>
-
-          <p v-else class="empty-text">아직 등록한 공연이 없습니다.</p>
-        </section>
-      </main>
-    </div>
+              <p v-else class="empty-text">아직 등록한 공연이 없습니다.</p>
+            </section>
+          </template>
+        </div>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -205,6 +220,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import AppHeader from "@/components/AppHeader.vue";
+import AppSidebar from "@/components/AppSidebar.vue";
 import CourseCard from "@/components/CourseCard.vue";
 import { useAuthStore } from "@/store/auth.js";
 import { enrollmentApi } from "@/api/enrollment.js";
@@ -384,86 +400,23 @@ onMounted(async () => {
   background: var(--color-bg-secondary);
 }
 
-.page-layout {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 24px;
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 28px;
-}
-
-.sidebar {
+.page-container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 18px;
 }
 
-.sidebar-section {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-bottom: 8px;
-}
-
-.sidebar-label {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.section-subtitle {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
   color: var(--color-text-muted);
-  padding: 8px 12px 4px;
-}
-
-.sidebar-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--radius-md);
-  font-size: 14px;
-  color: var(--color-text-secondary);
-  transition: var(--transition);
-  background: none;
-  border: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  font-family: var(--font-sans);
-  text-decoration: none;
-}
-
-.sidebar-item:hover {
-  background: var(--color-bg-tertiary);
-  color: var(--color-text-primary);
-}
-
-.sidebar-item.active {
-  background: var(--color-primary-light);
-  color: var(--color-primary);
-  font-weight: 500;
-}
-
-.si-icon {
-  font-size: 15px;
-}
-
-.main-content {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
 }
 
 .profile-card {
   display: flex;
   align-items: center;
   gap: 20px;
-  background: var(--color-bg-primary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  box-shadow: var(--shadow-sm);
 }
 
 .profile-avatar {
@@ -481,6 +434,7 @@ onMounted(async () => {
 }
 
 .profile-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -514,23 +468,6 @@ onMounted(async () => {
 .badge-amber {
   background: #f7edd8;
   color: #9a6700;
-}
-
-.section-head {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.section-title {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.section-subtitle {
-  font-size: 13px;
-  color: var(--color-text-muted);
 }
 
 .recommend-message {
@@ -590,17 +527,23 @@ onMounted(async () => {
 
 .summary-cards {
   display: grid;
-  grid-template-columns: repeat(2, minmax(160px, 220px));
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
   gap: 16px;
-  margin-bottom: 20px;
 }
 
 .summary-card {
-  background: var(--color-bg-primary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
   padding: 18px 20px;
-  box-shadow: var(--shadow-sm);
+}
+
+.summary-link {
+  display: block;
+  transition: var(--transition);
+}
+
+.summary-link:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .summary-label {
@@ -615,17 +558,22 @@ onMounted(async () => {
   color: var(--color-text-primary);
 }
 
+.summary-value-sm {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
 .instructor-course-list {
   display: grid;
   gap: 18px;
 }
 
 .instructor-course-card {
-  background: var(--color-bg-primary);
+  background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 22px;
-  box-shadow: var(--shadow-sm);
 }
 
 .course-card-top {
@@ -637,7 +585,7 @@ onMounted(async () => {
 }
 
 .course-title {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   margin-bottom: 8px;
 }
@@ -660,8 +608,8 @@ onMounted(async () => {
 }
 
 .status-active {
-  background: #eaf8ef;
-  color: #0f8a3b;
+  background: var(--color-success-light);
+  color: var(--color-success);
 }
 
 .status-inactive {
@@ -677,7 +625,8 @@ onMounted(async () => {
 }
 
 .meta-box {
-  background: var(--color-bg-secondary);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: 14px;
 }
@@ -733,6 +682,11 @@ onMounted(async () => {
   background: #e9e5ff;
 }
 
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
 .empty-text {
   color: var(--color-text-muted);
   font-size: 14px;
@@ -745,10 +699,6 @@ onMounted(async () => {
 }
 
 @media (max-width: 992px) {
-  .page-layout {
-    grid-template-columns: 1fr;
-  }
-
   .recommend-grid,
   .loading-row,
   .course-meta-grid {

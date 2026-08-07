@@ -1,101 +1,82 @@
 <template>
   <div class="page-wrapper">
     <AppHeader />
-    <div class="page-layout">
-      <aside class="sidebar">
-        <div class="sidebar-section">
-          <div class="sidebar-label">메뉴</div>
 
-          <router-link to="/courses" class="sidebar-item">
-            <span class="si-icon">🎬</span> 공연 목록
-          </router-link>
-
-          <router-link
-            v-if="!isInstructor"
-            to="/enrollments"
-            class="sidebar-item active"
-          >
-            <span class="si-icon">✅</span> 내 티켓 목록
-          </router-link>
-
-          <router-link to="/mypage" class="sidebar-item">
-            <span class="si-icon">⭐</span> 마이페이지
-          </router-link>
+    <main class="page-container">
+      <section class="page-head">
+        <div>
+          <span class="eyebrow">✦ MY TICKETS</span>
+          <h1 class="page-title">내 티켓 목록</h1>
+          <p class="page-subtitle">예매한 공연과 예매 상태를 확인하세요.</p>
         </div>
+      </section>
 
-        <div class="sidebar-section">
-          <div class="sidebar-label">계정</div>
-          <router-link to="/mypage" class="sidebar-item">
-            <span class="si-icon">👤</span> 마이페이지
-          </router-link>
-          <button class="sidebar-item sidebar-btn" @click="handleLogout">
-            <span class="si-icon">🚪</span> 로그아웃
-          </button>
-        </div>
-      </aside>
+      <div class="page-body">
+        <AppSidebar />
 
-      <main class="main-content">
-        <h1 class="page-title">내 티켓 목록</h1>
-
-        <div v-if="loading" class="loading-center">
-          <div class="spinner"></div>
-        </div>
-
-        <div v-else-if="enrollments.length" class="enrollment-list fade-in">
-          <div
-            v-for="item in enrollments"
-            :key="item.id"
-            class="enrollment-card"
-          >
-            <div
-              class="enroll-thumb"
-              :class="getThumbBg(item.course?.category)"
-            >
-              <img :src="getThumbSrc(item.course)" :alt="item.course?.title" />
+        <div class="main-content">
+          <section class="card-surface list-card">
+            <div v-if="loading" class="loading-center">
+              <div class="spinner"></div>
             </div>
 
-            <div class="enroll-info">
-              <span class="badge" :class="getBadge(item.course?.category)">
-                {{ item.course?.category }}
-              </span>
-              <h3 class="enroll-title">{{ item.course?.title }}</h3>
-              <p class="enroll-instructor">
-                강사: {{ item.course?.instructorName }}
-              </p>
-            </div>
-
-            <div class="enroll-status">
-              <span
-                :class="[
-                  'status-badge',
-                  item.status === 'ACTIVE' ? 'status-active' : 'status-pending',
-                ]"
+            <div v-else-if="enrollments.length" class="enrollment-list fade-in">
+              <div
+                v-for="item in enrollments"
+                :key="item.id"
+                class="enrollment-card"
               >
-                {{ item.status === "ACTIVE" ? "수강 중" : "대기 중" }}
-              </span>
+                <div
+                  class="enroll-thumb"
+                  :class="getThumbBg(item.course?.category)"
+                >
+                  <img :src="getThumbSrc(item.course)" :alt="item.course?.title" />
+                </div>
+
+                <div class="enroll-info">
+                  <span class="badge" :class="getBadge(item.course?.category)">
+                    {{ item.course?.category }}
+                  </span>
+                  <h3 class="enroll-title">{{ item.course?.title }}</h3>
+                  <p class="enroll-instructor">
+                    주최자: {{ item.course?.instructorName }}
+                  </p>
+                </div>
+
+                <div class="enroll-status">
+                  <span
+                    :class="[
+                      'status-badge',
+                      item.status === 'ACTIVE' ? 'status-active' : 'status-pending',
+                    ]"
+                  >
+                    {{ item.status === "ACTIVE" ? "예매 확정" : "대기 중" }}
+                  </span>
+                  <router-link
+                    :to="`/courses/${item.courseId}`"
+                    class="btn btn-ghost btn-sm"
+                  >
+                    공연 보기
+                  </router-link>
+                </div>
+              </div>
+            </div>
+
+            <div v-else class="empty-state">
+              <p class="empty-icon">📭</p>
+              <p>구매한 티켓이 없습니다.</p>
               <router-link
-                :to="`/courses/${item.courseId}`"
-                class="btn btn-ghost btn-sm"
+                to="/courses"
+                class="btn btn-primary"
+                style="margin-top: 16px"
               >
-                공연 보기
+                공연 둘러보기
               </router-link>
             </div>
-          </div>
+          </section>
         </div>
-
-        <div v-else class="empty-state">
-          <p class="empty-icon">📭</p>
-          <p>구매한 티켓이 없습니다.</p>
-          <router-link
-            to="/courses"
-            class="btn btn-primary"
-            style="margin-top: 16px"
-          >
-            공연 둘러보기
-          </router-link>
-        </div>
-      </main>
-    </div>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -103,6 +84,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import AppHeader from "@/components/AppHeader.vue";
+import AppSidebar from "@/components/AppSidebar.vue";
 import { enrollmentApi } from "@/api/enrollment.js";
 import { useAuthStore } from "@/store/auth.js";
 
@@ -140,13 +122,8 @@ function getThumbSrc(course) {
   }
 }
 
-function handleLogout() {
-  auth.logout();
-  router.push("/");
-}
-
 onMounted(async () => {
-  // 강사는 이 페이지 접근 불가 → 마이페이지로 이동
+  // 주최자는 이 페이지 접근 불가 → 마이페이지로 이동
   if (isInstructor.value) {
     console.warn(
       "[EnrollmentView] instructor tried to access /enrollments, redirect to /mypage",
@@ -181,78 +158,8 @@ onMounted(async () => {
   background: var(--color-bg-secondary);
 }
 
-.page-layout {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 24px;
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 28px;
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sidebar-section {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-bottom: 8px;
-}
-
-.sidebar-label {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text-muted);
-  padding: 8px 12px 4px;
-}
-
-.sidebar-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--radius-md);
-  font-size: 14px;
-  color: var(--color-text-secondary);
-  transition: var(--transition);
-  background: none;
-  border: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  font-family: var(--font-sans);
-  text-decoration: none;
-}
-
-.sidebar-item:hover {
-  background: var(--color-bg-tertiary);
-  color: var(--color-text-primary);
-}
-
-.sidebar-item.active {
-  background: var(--color-primary-light);
-  color: var(--color-primary);
-  font-weight: 500;
-}
-
-.si-icon {
-  font-size: 15px;
-}
-
-.main-content {
-  min-width: 0;
-}
-
-.page-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 24px;
+.list-card {
+  padding: 24px;
 }
 
 .enrollment-list {
@@ -265,7 +172,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 16px;
-  background: var(--color-bg-primary);
+  background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 16px;
@@ -273,6 +180,7 @@ onMounted(async () => {
 }
 
 .enrollment-card:hover {
+  border-color: var(--color-border-hover);
   box-shadow: var(--shadow-sm);
 }
 
@@ -346,13 +254,13 @@ onMounted(async () => {
 }
 
 .status-active {
-  background: #e1f5ee;
-  color: #0f6e56;
+  background: var(--color-success-light);
+  color: var(--color-success);
 }
 
 .status-pending {
-  background: #faeeda;
-  color: #854f0b;
+  background: var(--color-warning-light);
+  color: var(--color-warning);
 }
 
 .btn-sm {

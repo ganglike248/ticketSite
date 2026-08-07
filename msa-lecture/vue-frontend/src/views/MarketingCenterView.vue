@@ -138,30 +138,15 @@ import AppHeader from "@/components/AppHeader.vue";
 </script>
 
 <style scoped>
-/* 색상·타이포·카드 토큰은 SalesInsightView.vue(AI 판매 인사이트)와 동일하게 맞췄습니다. */
+/* 색상·타이포·카드 토큰은 global.css의 공용 변수를 그대로 사용합니다(AI 판매 인사이트와 동일 팔레트). */
 .page-outer {
-	--primary: #6654d9;
-	--primary-dark: #5946c7;
-	--primary-light: #f0edff;
+	/* insight 계열 페이지 전용 보조 색상(성공/코랄 계열은 global.css에 없어 로컬로 유지) */
 	--coral: #ef6655;
 	--coral-light: #fff0ed;
-	--bg-page: #f7f7fa;
-	--bg-card: #ffffff;
-	--bg-sub: #f2f1f7;
-	--text-main: #29292d;
-	--text-secondary: #66666e;
-	--text-muted: #9a9aa1;
-	--border-color: #e6e6eb;
 
-	background-color: var(--bg-page);
-	color: var(--text-main);
+	background-color: var(--color-bg-secondary);
+	color: var(--color-text-primary);
 	min-height: 100vh;
-}
-
-.page-outer,
-.page-outer * {
-	box-sizing: border-box;
-	font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", sans-serif;
 }
 
 .dashboard {
@@ -188,7 +173,7 @@ import AppHeader from "@/components/AppHeader.vue";
 	font-size: 11px;
 	font-weight: 800;
 	letter-spacing: 0.12em;
-	color: var(--primary);
+	color: var(--color-primary);
 	margin-bottom: 7px;
 }
 
@@ -202,7 +187,7 @@ import AppHeader from "@/components/AppHeader.vue";
 .page-subtitle {
 	margin-top: 9px;
 	font-size: 14px;
-	color: var(--text-secondary);
+	color: var(--color-text-secondary);
 }
 
 .engine-badge {
@@ -212,7 +197,7 @@ import AppHeader from "@/components/AppHeader.vue";
 	padding: 9px 13px;
 	border-radius: 999px;
 	border: 1px solid #ddd8ff;
-	background: var(--primary-light);
+	background: var(--color-primary-light);
 	font-size: 12px;
 	font-weight: 700;
 	color: #5c49cb;
@@ -229,8 +214,8 @@ import AppHeader from "@/components/AppHeader.vue";
 
 /* 카드 공통 */
 .card {
-	background-color: var(--bg-card);
-	border: 1px solid var(--border-color);
+	background-color: var(--color-bg-primary);
+	border: 1px solid var(--color-border);
 	border-radius: 16px;
 	padding: 24px;
 	box-shadow: 0 2px 8px rgba(35, 35, 52, 0.035);
@@ -260,14 +245,14 @@ import AppHeader from "@/components/AppHeader.vue";
 	background: #fafafd;
 	padding: 20px;
 	border-radius: 12px;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--color-border);
 }
 
 .stat-card {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	border-right: 1px solid var(--border-color);
+	border-right: 1px solid var(--color-border);
 	padding-right: 20px;
 }
 
@@ -275,7 +260,7 @@ import AppHeader from "@/components/AppHeader.vue";
 	font-size: 2rem;
 	font-weight: 850;
 	letter-spacing: -0.03em;
-	color: var(--primary);
+	color: var(--color-primary);
 }
 
 .stat-num.warning {
@@ -284,7 +269,7 @@ import AppHeader from "@/components/AppHeader.vue";
 
 .stat-desc {
 	font-size: 12px;
-	color: var(--text-muted);
+	color: var(--color-text-muted);
 	margin-top: 4px;
 }
 
@@ -299,14 +284,14 @@ import AppHeader from "@/components/AppHeader.vue";
 	font-size: 12px;
 	font-weight: 800;
 	letter-spacing: 0.04em;
-	color: var(--primary);
+	color: var(--color-primary);
 }
 
 .opinion-text {
 	max-width: 640px;
 	font-size: 13px;
 	line-height: 1.7;
-	color: var(--text-secondary);
+	color: var(--color-text-secondary);
 }
 
 .risk-alert {
@@ -342,7 +327,7 @@ import AppHeader from "@/components/AppHeader.vue";
 	background: #fafafd;
 	padding: 13px;
 	border-radius: 11px;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--color-border);
 }
 
 .channel-item-header {
@@ -351,24 +336,24 @@ import AppHeader from "@/components/AppHeader.vue";
 	align-items: center;
 	font-size: 13px;
 	font-weight: 700;
-	color: var(--text-main);
+	color: var(--color-text-primary);
 }
 
 .channel-reason {
 	font-size: 12px;
-	color: var(--text-secondary);
+	color: var(--color-text-secondary);
 	margin-top: 5px;
 	line-height: 1.5;
 }
 
 .match-rate {
-	color: var(--primary);
+	color: var(--color-primary);
 	font-size: 12px;
 	font-weight: 700;
 }
 
 .match-rate.muted {
-	color: var(--text-muted);
+	color: var(--color-text-muted);
 }
 
 .thumb-grid {
@@ -379,7 +364,7 @@ import AppHeader from "@/components/AppHeader.vue";
 
 .thumb-card {
 	background: #fafafd;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--color-border);
 	border-radius: 11px;
 	padding: 10px;
 	text-align: center;
@@ -400,23 +385,23 @@ import AppHeader from "@/components/AppHeader.vue";
 	align-items: center;
 	justify-content: center;
 	font-size: 12px;
-	color: var(--text-muted);
+	color: var(--color-text-muted);
 }
 
 .thumb-ctr {
 	font-size: 12px;
 	font-weight: 700;
-	color: var(--primary);
+	color: var(--color-primary);
 }
 
 .thumb-ctr.muted {
-	color: var(--text-muted);
+	color: var(--color-text-muted);
 	font-weight: 500;
 }
 
 .thumb-reason {
 	font-size: 11px;
-	color: var(--text-muted);
+	color: var(--color-text-muted);
 	margin-top: 5px;
 	line-height: 1.5;
 }
@@ -432,12 +417,12 @@ import AppHeader from "@/components/AppHeader.vue";
 
 .tone-label {
 	font-size: 12px;
-	color: var(--text-secondary);
+	color: var(--color-text-secondary);
 	font-weight: 700;
 }
 
 .tone-chip {
-	background: var(--bg-sub);
+	background: var(--color-bg-tertiary);
 	padding: 5px 10px;
 	border-radius: 999px;
 	font-size: 11px;
@@ -446,7 +431,7 @@ import AppHeader from "@/components/AppHeader.vue";
 }
 
 .tone-chip.active {
-	background: var(--primary-light);
+	background: var(--color-primary-light);
 	color: #5d49c9;
 }
 
@@ -457,8 +442,8 @@ import AppHeader from "@/components/AppHeader.vue";
 }
 
 .tab-item {
-	background: var(--bg-sub);
-	color: var(--text-secondary);
+	background: var(--color-bg-tertiary);
+	color: var(--color-text-secondary);
 	padding: 7px 14px;
 	border-radius: 10px;
 	font-size: 13px;
@@ -466,7 +451,7 @@ import AppHeader from "@/components/AppHeader.vue";
 }
 
 .tab-item.active {
-	background: var(--primary);
+	background: var(--color-primary);
 	color: white;
 }
 
@@ -474,10 +459,10 @@ import AppHeader from "@/components/AppHeader.vue";
 	width: 100%;
 	height: 170px;
 	background: #fafafd;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--color-border);
 	border-radius: 10px;
 	padding: 14px;
-	color: var(--text-main);
+	color: var(--color-text-primary);
 	font-size: 13px;
 	font-family: inherit;
 	line-height: 1.65;
@@ -515,13 +500,13 @@ import AppHeader from "@/components/AppHeader.vue";
 }
 
 .btn-primary {
-	background: var(--primary);
+	background: var(--color-primary);
 	color: white;
 	box-shadow: 0 7px 16px rgba(102, 84, 217, 0.2);
 }
 
 .btn-primary:hover {
-	background-color: var(--primary-dark);
+	background-color: var(--color-primary-dark);
 	transform: translateY(-1px);
 }
 
@@ -551,7 +536,7 @@ import AppHeader from "@/components/AppHeader.vue";
 
 	.stat-card {
 		border-right: none;
-		border-bottom: 1px solid var(--border-color);
+		border-bottom: 1px solid var(--color-border);
 		padding-right: 0;
 		padding-bottom: 12px;
 	}

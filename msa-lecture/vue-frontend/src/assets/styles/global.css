@@ -1,28 +1,29 @@
 :root {
-  --color-primary: #185FA5;
-  --color-primary-dark: #0C447C;
-  --color-primary-light: #E6F1FB;
-  --color-secondary: #378ADD;
-  --color-text-primary: #1a1a2e;
-  --color-text-secondary: #6b7280;
-  --color-text-muted: #9ca3af;
+  /* AI 마케팅 센터 / AI 판매 인사이트 페이지의 팔레트를 기준으로 통일 */
+  --color-primary: #6654d9;
+  --color-primary-dark: #5946c7;
+  --color-primary-light: #f0edff;
+  --color-secondary: #8172e6;
+  --color-text-primary: #29292d;
+  --color-text-secondary: #66666e;
+  --color-text-muted: #9a9aa1;
   --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f8fafc;
-  --color-bg-tertiary: #f1f5f9;
-  --color-border: #e2e8f0;
-  --color-border-hover: #cbd5e1;
-  --color-success: #0F6E56;
-  --color-success-light: #E1F5EE;
-  --color-warning: #854F0B;
-  --color-warning-light: #FAEEDA;
+  --color-bg-secondary: #f7f7fa;
+  --color-bg-tertiary: #f2f1f7;
+  --color-border: #e6e6eb;
+  --color-border-hover: #cfccd9;
+  --color-success: #178154;
+  --color-success-light: #e8f7ef;
+  --color-warning: #bc7518;
+  --color-warning-light: #fff5df;
   --color-danger: #dc2626;
-  --radius-sm: 6px;
+  --radius-sm: 8px;
   --radius-md: 10px;
-  --radius-lg: 14px;
+  --radius-lg: 16px;
   --radius-xl: 20px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
-  --shadow-lg: 0 10px 32px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-sm: 0 2px 8px rgba(35,35,52,0.035);
+  --shadow-md: 0 4px 16px rgba(35,35,52,0.08), 0 2px 6px rgba(35,35,52,0.04);
+  --shadow-lg: 0 10px 32px rgba(35,35,52,0.10), 0 4px 12px rgba(35,35,52,0.06);
   --font-sans: 'Plus Jakarta Sans', 'Noto Sans KR', sans-serif;
   --transition: all 0.2s ease;
 }
@@ -140,3 +141,128 @@ img {
 .badge-purple { background: #EEEDFE; color: #534AB7; }
 .badge-pink   { background: #FBEAF0; color: #993556; }
 .badge-gray   { background: #F1EFE8; color: #5F5E5A; }
+
+/* ============================================================
+   공통 페이지 레이아웃 (AI 마케팅 센터 / AI 판매 인사이트 기준으로 통일)
+   ============================================================ */
+.page-container {
+  width: min(1280px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 38px 0 72px;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.eyebrow,
+.section-kicker {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-primary);
+}
+
+.eyebrow {
+  margin-bottom: 7px;
+}
+
+.page-title {
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+  color: var(--color-text-primary);
+}
+
+.page-subtitle {
+  margin-top: 9px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.engine-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border-radius: 999px;
+  border: 1px solid #ddd8ff;
+  background: var(--color-primary-light);
+  font-size: 12px;
+  font-weight: 700;
+  color: #5c49cb;
+  white-space: nowrap;
+}
+
+.engine-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6d59dd;
+  box-shadow: 0 0 0 4px rgba(109, 89, 221, 0.12);
+}
+
+/* 카드 표면 */
+.card-surface {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+}
+
+.card-heading-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.card-heading-row h2,
+.card-heading-row h3 {
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+}
+
+/* 사이드바가 있는 페이지 레이아웃 (AppSidebar.vue와 함께 사용) */
+.page-body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.main-content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+@media (max-width: 992px) {
+  .page-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .page-container {
+    width: min(100% - 32px, 1280px);
+    padding-top: 26px;
+  }
+
+  .page-head {
+    flex-direction: column;
+  }
+}

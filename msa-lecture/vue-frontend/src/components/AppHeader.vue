@@ -8,7 +8,7 @@
           alt="TicketNexus"
           class="logo-img"
         />
-        <span class="logo-text">TicketNexus</span>
+        <span class="logo-text">TICKET<span class="logo-accent">Nexus</span></span>
       </router-link>
 
       <!-- 네비게이션 -->
@@ -87,15 +87,14 @@ function handleLogout() {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--color-border);
 }
 .header-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
-  height: 64px;
+  padding: 14px 24px;
   display: flex;
   align-items: center;
   gap: 32px;
@@ -107,34 +106,38 @@ function handleLogout() {
   flex-shrink: 0;
 }
 .logo-img {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   border-radius: 8px;
 }
 .logo-text {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--color-text-primary);
+  font-size: 1.1rem;
+  font-weight: 800;
   letter-spacing: -0.3px;
+  color: var(--color-text-primary);
+}
+.logo-accent {
+  color: var(--color-primary);
 }
 .nav-links {
   display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: 16px;
   flex: 1;
 }
 .nav-link {
-  padding: 6px 14px;
-  border-radius: var(--radius-md);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
   transition: var(--transition);
 }
 .nav-link:hover,
 .nav-link.active {
   color: var(--color-primary);
-  background: var(--color-primary-light);
+  border-bottom-color: var(--color-primary);
 }
 .header-actions {
   display: flex;
@@ -167,7 +170,7 @@ function handleLogout() {
 
 @media (max-width: 720px) {
   .header-inner {
-    padding: 0 16px;
+    padding: 12px 16px;
     gap: 12px;
   }
 
@@ -175,8 +178,11 @@ function handleLogout() {
     display: none;
   }
 
+  .nav-links {
+    gap: 10px;
+  }
+
   .nav-link {
-    padding: 6px 9px;
     font-size: 12px;
   }
 

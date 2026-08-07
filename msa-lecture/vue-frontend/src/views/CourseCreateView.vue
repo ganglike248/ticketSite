@@ -2,143 +2,110 @@
   <div class="page-wrapper">
     <AppHeader />
 
-    <div class="page-layout">
-      <!-- 사이드바 -->
-      <aside class="sidebar">
-        <div class="sidebar-section">
-          <div class="sidebar-label">메뉴</div>
-
-          <router-link
-            to="/courses"
-            class="sidebar-item"
-            :class="{ active: $route.path === '/courses' }"
-          >
-            <span class="si-icon">📚</span> 공연 목록
-          </router-link>
-
-          <router-link
-            to="/courses/new"
-            class="sidebar-item"
-            :class="{ active: $route.path === '/courses/new' }"
-          >
-            <span class="si-icon">✍️</span> 공연 등록
-          </router-link>
-
-          <router-link to="/mypage" class="sidebar-item">
-            <span class="si-icon">⭐</span> 마이페이지
-          </router-link>
+    <main class="page-container">
+      <section class="page-head">
+        <div>
+          <span class="eyebrow">✦ NEW EVENT</span>
+          <h1 class="page-title">공연 등록</h1>
+          <p class="page-subtitle">
+            주최자 계정으로 새로운 공연을 등록합니다.
+          </p>
         </div>
+      </section>
 
-        <div class="sidebar-section">
-          <div class="sidebar-label">계정</div>
-          <router-link to="/mypage" class="sidebar-item">
-            <span class="si-icon">👤</span> 마이페이지
-          </router-link>
-          <button class="sidebar-item sidebar-btn" @click="handleLogout">
-            <span class="si-icon">🚪</span> 로그아웃
-          </button>
-        </div>
-      </aside>
+      <div class="page-body">
+        <AppSidebar />
 
-      <!-- 메인 -->
-      <main class="main-content">
-        <div class="content-header">
-          <div>
-            <h1 class="page-title">공연 등록</h1>
-            <p class="page-subtitle">
-              호스트 계정으로 새로운 공연을 등록합니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="form-card">
-          <form class="course-form" @submit.prevent="handleSubmit">
-            <div class="form-group">
-              <label class="form-label" for="title">공연명</label>
-              <input
-                id="title"
-                v-model.trim="form.title"
-                type="text"
-                class="form-input"
-                placeholder="예: 2026 여름 락 페스티벌"
-                maxlength="100"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="description">공연 설명</label>
-              <textarea
-                id="description"
-                v-model.trim="form.description"
-                class="form-textarea"
-                rows="6"
-                placeholder="공연 소개, 출연진, 관람 등급 등을 입력해 주세요."
-              ></textarea>
-            </div>
-
-            <div class="form-row">
+        <div class="main-content">
+          <div class="card-surface form-card">
+            <form class="course-form" @submit.prevent="handleSubmit">
               <div class="form-group">
-                <label class="form-label" for="category">장르</label>
-                <select
-                  id="category"
-                  v-model="form.category"
-                  class="form-select"
-                >
-                  <option disabled value="">장르를 선택하세요</option>
-                  <option
-                    v-for="option in categoryOptions"
-                    :key="option.value"
-                    :value="option.value"
-                  >
-                    {{ option.label }}
-                  </option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="price">티켓 가격</label>
+                <label class="form-label" for="title">공연명</label>
                 <input
-                  id="price"
-                  v-model.number="form.price"
-                  type="number"
-                  min="0"
-                  step="1000"
+                  id="title"
+                  v-model.trim="form.title"
+                  type="text"
                   class="form-input"
-                  placeholder="예: 50000"
+                  placeholder="예: 2026 여름 락 페스티벌"
+                  maxlength="100"
                 />
               </div>
-            </div>
 
-            <div v-if="validationError" class="error-box">
-              {{ validationError }}
-            </div>
+              <div class="form-group">
+                <label class="form-label" for="description">공연 설명</label>
+                <textarea
+                  id="description"
+                  v-model.trim="form.description"
+                  class="form-textarea"
+                  rows="6"
+                  placeholder="공연 소개, 출연진, 관람 등급 등을 입력해 주세요."
+                ></textarea>
+              </div>
 
-            <div v-if="submitError" class="error-box">
-              {{ submitError }}
-            </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="category">장르</label>
+                  <select
+                    id="category"
+                    v-model="form.category"
+                    class="form-select"
+                  >
+                    <option disabled value="">장르를 선택하세요</option>
+                    <option
+                      v-for="option in categoryOptions"
+                      :key="option.value"
+                      :value="option.value"
+                    >
+                      {{ option.label }}
+                    </option>
+                  </select>
+                </div>
 
-            <div v-if="submitSuccess" class="success-box">
-              {{ submitSuccess }}
-            </div>
+                <div class="form-group">
+                  <label class="form-label" for="price">티켓 가격</label>
+                  <input
+                    id="price"
+                    v-model.number="form.price"
+                    type="number"
+                    min="0"
+                    step="1000"
+                    class="form-input"
+                    placeholder="예: 50000"
+                  />
+                </div>
+              </div>
 
-            <div class="form-actions">
-              <router-link to="/courses" class="btn btn-ghost">
-                취소
-              </router-link>
+              <div v-if="validationError" class="error-box">
+                {{ validationError }}
+              </div>
 
-              <button
-                type="submit"
-                class="btn btn-primary"
-                :disabled="submitting"
-              >
-                <span v-if="submitting">등록 중...</span>
-                <span v-else>공연 등록</span>
-              </button>
-            </div>
-          </form>
+              <div v-if="submitError" class="error-box">
+                {{ submitError }}
+              </div>
+
+              <div v-if="submitSuccess" class="success-box">
+                {{ submitSuccess }}
+              </div>
+
+              <div class="form-actions">
+                <router-link to="/courses" class="btn btn-ghost">
+                  취소
+                </router-link>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  :disabled="submitting"
+                >
+                  <span v-if="submitting">등록 중...</span>
+                  <span v-else>공연 등록</span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -146,6 +113,7 @@
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import AppHeader from "@/components/AppHeader.vue";
+import AppSidebar from "@/components/AppSidebar.vue";
 import { courseApi } from "@/api/course.js";
 import { useAuthStore } from "@/store/auth.js";
 
@@ -171,11 +139,6 @@ const categoryOptions = [
   { label: "전시/행사", value: "DATA" },
   { label: "패스티벌", value: "AI" },
 ];
-
-function handleLogout() {
-  auth.logout();
-  router.push("/");
-}
 
 function validateForm() {
   validationError.value = "";
@@ -262,102 +225,9 @@ async function handleSubmit() {
   background: var(--color-bg-secondary);
 }
 
-.page-layout {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 24px;
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 28px;
-}
-
-/* 사이드바 */
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sidebar-section {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-bottom: 8px;
-}
-
-.sidebar-label {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text-muted);
-  padding: 8px 12px 4px;
-}
-
-.sidebar-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--radius-md);
-  font-size: 14px;
-  color: var(--color-text-secondary);
-  transition: var(--transition);
-  background: none;
-  border: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-  font-family: var(--font-sans);
-  text-decoration: none;
-}
-
-.sidebar-item:hover {
-  background: var(--color-bg-tertiary);
-  color: var(--color-text-primary);
-}
-
-.sidebar-item.active {
-  background: var(--color-primary-light);
-  color: var(--color-primary);
-  font-weight: 500;
-}
-
-.si-icon {
-  font-size: 15px;
-}
-
-.sidebar-btn {
-  color: var(--color-text-secondary);
-}
-
-/* 메인 */
-.main-content {
-  min-width: 0;
-}
-
-.content-header {
-  margin-bottom: 20px;
-}
-
-.page-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-
-.page-subtitle {
-  margin-top: 6px;
-  font-size: 13px;
-  color: var(--color-text-muted);
-}
-
 .form-card {
-  background: var(--color-bg-primary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
+  max-width: 640px;
+  padding: 28px;
 }
 
 .course-form {
@@ -390,7 +260,7 @@ async function handleSubmit() {
   width: 100%;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: var(--color-bg-primary);
+  background: var(--color-bg-secondary);
   padding: 12px 14px;
   font-size: 14px;
   font-family: inherit;
@@ -404,7 +274,8 @@ async function handleSubmit() {
 .form-textarea:focus,
 .form-select:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+  background: var(--color-bg-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
 }
 
 .form-textarea {
@@ -422,8 +293,8 @@ async function handleSubmit() {
 }
 
 .success-box {
-  background: #ecfdf3;
-  color: #15803d;
+  background: var(--color-success-light);
+  color: var(--color-success);
   border-radius: var(--radius-md);
   padding: 12px 14px;
   font-size: 13px;
@@ -436,11 +307,7 @@ async function handleSubmit() {
   margin-top: 6px;
 }
 
-@media (max-width: 992px) {
-  .page-layout {
-    grid-template-columns: 1fr;
-  }
-
+@media (max-width: 720px) {
   .form-row {
     grid-template-columns: 1fr;
   }
