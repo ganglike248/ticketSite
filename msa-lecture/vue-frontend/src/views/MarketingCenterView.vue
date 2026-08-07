@@ -138,18 +138,20 @@ import AppHeader from "@/components/AppHeader.vue";
 </script>
 
 <style scoped>
+/* 색상·타이포·카드 토큰은 SalesInsightView.vue(AI 판매 인사이트)와 동일하게 맞췄습니다. */
 .page-outer {
-	--primary: #6366f1;
-	--primary-dark: #4f46e5;
-	--primary-light: #eef2ff;
-	--bg-page: #f8f8fc;
+	--primary: #6654d9;
+	--primary-dark: #5946c7;
+	--primary-light: #f0edff;
+	--coral: #ef6655;
+	--coral-light: #fff0ed;
+	--bg-page: #f7f7fa;
 	--bg-card: #ffffff;
-	--bg-sub: #f4f4f8;
-	--text-main: #171334;
-	--text-secondary: #524d6b;
-	--text-muted: #8b87a3;
-	--border-color: #ececf3;
-	--accent-red: #ea580c;
+	--bg-sub: #f2f1f7;
+	--text-main: #29292d;
+	--text-secondary: #66666e;
+	--text-muted: #9a9aa1;
+	--border-color: #e6e6eb;
 
 	background-color: var(--bg-page);
 	color: var(--text-main);
@@ -163,9 +165,9 @@ import AppHeader from "@/components/AppHeader.vue";
 }
 
 .dashboard {
-	max-width: 880px;
+	width: min(1280px, calc(100% - 48px));
 	margin: 0 auto;
-	padding: 32px 24px 64px;
+	padding: 38px 0 72px;
 	display: flex;
 	flex-direction: column;
 	gap: 18px;
@@ -176,71 +178,75 @@ import AppHeader from "@/components/AppHeader.vue";
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
-	gap: 16px;
+	gap: 24px;
 	flex-wrap: wrap;
-	margin-bottom: 4px;
+	margin-bottom: 6px;
 }
 
 .eyebrow {
 	display: inline-block;
-	font-size: 0.72rem;
+	font-size: 11px;
 	font-weight: 800;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.12em;
 	color: var(--primary);
-	margin-bottom: 8px;
+	margin-bottom: 7px;
 }
 
 .page-title {
-	font-size: 1.7rem;
+	font-size: clamp(27px, 3vw, 36px);
 	font-weight: 800;
-	letter-spacing: -0.02em;
+	line-height: 1.25;
+	letter-spacing: -0.04em;
 }
 
 .page-subtitle {
-	margin-top: 6px;
-	font-size: 0.85rem;
-	color: var(--text-muted);
+	margin-top: 9px;
+	font-size: 14px;
+	color: var(--text-secondary);
 }
 
 .engine-badge {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
-	padding: 7px 14px;
+	gap: 8px;
+	padding: 9px 13px;
 	border-radius: 999px;
-	border: 1px solid var(--border-color);
-	background: var(--bg-card);
-	font-size: 0.75rem;
+	border: 1px solid #ddd8ff;
+	background: var(--primary-light);
+	font-size: 12px;
 	font-weight: 700;
-	color: var(--text-secondary);
+	color: #5c49cb;
+	white-space: nowrap;
 }
 
 .engine-dot {
-	width: 6px;
-	height: 6px;
+	width: 7px;
+	height: 7px;
 	border-radius: 50%;
-	background: #16a34a;
+	background: #6d59dd;
+	box-shadow: 0 0 0 4px rgba(109, 89, 221, 0.12);
 }
 
 /* 카드 공통 */
 .card {
 	background-color: var(--bg-card);
 	border: 1px solid var(--border-color);
-	border-radius: 18px;
-	padding: 22px;
-	box-shadow: 0 2px 10px rgba(23, 19, 52, 0.03);
+	border-radius: 16px;
+	padding: 24px;
+	box-shadow: 0 2px 8px rgba(35, 35, 52, 0.035);
 }
 
 .section-title-wrap {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-bottom: 14px;
+	margin-bottom: 16px;
 }
 
 .section-title {
-	font-size: 1.02rem;
+	font-size: 18px;
 	font-weight: 800;
+	letter-spacing: -0.025em;
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -249,11 +255,12 @@ import AppHeader from "@/components/AppHeader.vue";
 /* Step 1: AI 진단 & 의견 */
 .insight-grid-3 {
 	display: grid;
-	grid-template-columns: 130px 130px 1fr;
-	gap: 16px;
-	background: var(--bg-sub);
-	padding: 16px;
+	grid-template-columns: 160px 160px 1fr;
+	gap: 20px;
+	background: #fafafd;
+	padding: 20px;
 	border-radius: 12px;
+	border: 1px solid var(--border-color);
 }
 
 .stat-card {
@@ -261,23 +268,24 @@ import AppHeader from "@/components/AppHeader.vue";
 	flex-direction: column;
 	justify-content: center;
 	border-right: 1px solid var(--border-color);
-	padding-right: 16px;
+	padding-right: 20px;
 }
 
 .stat-num {
-	font-size: 1.6rem;
-	font-weight: 800;
+	font-size: 2rem;
+	font-weight: 850;
+	letter-spacing: -0.03em;
 	color: var(--primary);
 }
 
 .stat-num.warning {
-	color: var(--accent-red);
+	color: var(--coral);
 }
 
 .stat-desc {
-	font-size: 0.76rem;
+	font-size: 12px;
 	color: var(--text-muted);
-	margin-top: 2px;
+	margin-top: 4px;
 }
 
 .ai-opinion-box {
@@ -288,45 +296,52 @@ import AppHeader from "@/components/AppHeader.vue";
 }
 
 .opinion-title {
-	font-size: 0.82rem;
-	font-weight: 700;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.04em;
 	color: var(--primary);
 }
 
 .opinion-text {
-	font-size: 0.8rem;
-	line-height: 1.5;
+	max-width: 640px;
+	font-size: 13px;
+	line-height: 1.7;
 	color: var(--text-secondary);
 }
 
 .risk-alert {
-	background-color: #fff1e9;
-	border: 1px solid #ffd8bf;
-	color: #9a3412;
-	padding: 8px 12px;
+	max-width: 640px;
+	background-color: var(--coral-light);
+	border: 1px solid #ffddd7;
+	color: #7f4139;
+	padding: 10px 12px;
 	border-radius: 10px;
-	font-size: 0.76rem;
+	font-size: 12px;
 	font-weight: 600;
 	margin-top: 4px;
+}
+
+.risk-alert strong {
+	color: #d05a49;
 }
 
 /* Step 2: 채널 & 썸네일 & 근거 */
 .grid-2 {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 18px;
+	gap: 22px;
 }
 
 .channel-list {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: 10px;
 }
 
 .channel-item-group {
-	background: var(--bg-sub);
-	padding: 10px 12px;
-	border-radius: 10px;
+	background: #fafafd;
+	padding: 13px;
+	border-radius: 11px;
 	border: 1px solid var(--border-color);
 }
 
@@ -334,20 +349,21 @@ import AppHeader from "@/components/AppHeader.vue";
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	font-size: 0.85rem;
+	font-size: 13px;
 	font-weight: 700;
 	color: var(--text-main);
 }
 
 .channel-reason {
-	font-size: 0.75rem;
+	font-size: 12px;
 	color: var(--text-secondary);
-	margin-top: 4px;
+	margin-top: 5px;
+	line-height: 1.5;
 }
 
 .match-rate {
 	color: var(--primary);
-	font-size: 0.76rem;
+	font-size: 12px;
 	font-weight: 700;
 }
 
@@ -358,37 +374,37 @@ import AppHeader from "@/components/AppHeader.vue";
 .thumb-grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 10px;
+	gap: 12px;
 }
 
 .thumb-card {
-	background: var(--bg-sub);
-	border: 1.5px solid var(--border-color);
-	border-radius: 10px;
-	padding: 8px;
+	background: #fafafd;
+	border: 1px solid var(--border-color);
+	border-radius: 11px;
+	padding: 10px;
 	text-align: center;
 }
 
 .thumb-card.selected {
-	border-color: var(--primary);
-	background-color: var(--primary-light);
+	border-color: #d9d2ff;
+	background: linear-gradient(145deg, #fff 55%, #f5f2ff);
 }
 
 .thumb-img {
 	width: 100%;
-	height: 50px;
-	background: var(--border-color);
+	height: 64px;
+	background: #ececf2;
 	border-radius: 8px;
-	margin-bottom: 6px;
+	margin-bottom: 8px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 0.72rem;
+	font-size: 12px;
 	color: var(--text-muted);
 }
 
 .thumb-ctr {
-	font-size: 0.75rem;
+	font-size: 12px;
 	font-weight: 700;
 	color: var(--primary);
 }
@@ -399,9 +415,10 @@ import AppHeader from "@/components/AppHeader.vue";
 }
 
 .thumb-reason {
-	font-size: 0.7rem;
+	font-size: 11px;
 	color: var(--text-muted);
-	margin-top: 4px;
+	margin-top: 5px;
+	line-height: 1.5;
 }
 
 /* Step 3: 콘텐츠 생성 */
@@ -410,66 +427,62 @@ import AppHeader from "@/components/AppHeader.vue";
 	align-items: center;
 	flex-wrap: wrap;
 	gap: 8px;
-	margin-bottom: 12px;
+	margin-bottom: 14px;
 }
 
 .tone-label {
-	font-size: 0.78rem;
+	font-size: 12px;
 	color: var(--text-secondary);
-	font-weight: 600;
+	font-weight: 700;
 }
 
 .tone-chip {
 	background: var(--bg-sub);
-	border: 1px solid var(--border-color);
-	padding: 5px 12px;
-	border-radius: 20px;
-	font-size: 0.75rem;
-	color: var(--text-main);
+	padding: 5px 10px;
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 700;
+	color: #66636f;
 }
 
 .tone-chip.active {
 	background: var(--primary-light);
-	border-color: var(--primary);
-	color: var(--primary-dark);
-	font-weight: 700;
+	color: #5d49c9;
 }
 
 .tab-bar {
 	display: flex;
 	gap: 8px;
-	margin-bottom: 12px;
+	margin-bottom: 14px;
 }
 
 .tab-item {
 	background: var(--bg-sub);
-	border: 1px solid var(--border-color);
 	color: var(--text-secondary);
 	padding: 7px 14px;
 	border-radius: 10px;
-	font-size: 0.8rem;
-	font-weight: 600;
+	font-size: 13px;
+	font-weight: 700;
 }
 
 .tab-item.active {
 	background: var(--primary);
 	color: white;
-	border-color: var(--primary);
 }
 
 .prompt-box {
 	width: 100%;
-	height: 155px;
-	background: var(--bg-sub);
+	height: 170px;
+	background: #fafafd;
 	border: 1px solid var(--border-color);
 	border-radius: 10px;
-	padding: 12px;
+	padding: 14px;
 	color: var(--text-main);
-	font-size: 0.82rem;
+	font-size: 13px;
 	font-family: inherit;
-	line-height: 1.5;
+	line-height: 1.65;
 	resize: none;
-	margin-bottom: 12px;
+	margin-bottom: 14px;
 }
 
 .btn-group {
@@ -479,30 +492,59 @@ import AppHeader from "@/components/AppHeader.vue";
 }
 
 .btn {
-	padding: 8px 16px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 11px 16px;
 	border-radius: 10px;
-	font-size: 0.8rem;
+	font-size: 12px;
 	font-weight: 700;
 	cursor: pointer;
 	border: none;
+	transition: 0.2s ease;
 }
 
 .btn-ghost {
-	background: var(--bg-sub);
-	color: var(--text-secondary);
-	border: 1px solid var(--border-color);
+	background: #f2f2f6;
+	color: #5f5f66;
+}
+
+.btn-ghost:hover {
+	background: #e9e7f7;
+	color: #5a47c4;
 }
 
 .btn-primary {
 	background: var(--primary);
 	color: white;
+	box-shadow: 0 7px 16px rgba(102, 84, 217, 0.2);
 }
 
 .btn-primary:hover {
 	background-color: var(--primary-dark);
+	transform: translateY(-1px);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1024px) {
+	.insight-grid-3 {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.ai-opinion-box {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 720px) {
+	.dashboard {
+		width: min(100% - 32px, 1280px);
+		padding-top: 26px;
+	}
+
+	.page-head {
+		flex-direction: column;
+	}
+
 	.insight-grid-3 {
 		grid-template-columns: 1fr;
 	}
@@ -511,7 +553,11 @@ import AppHeader from "@/components/AppHeader.vue";
 		border-right: none;
 		border-bottom: 1px solid var(--border-color);
 		padding-right: 0;
-		padding-bottom: 10px;
+		padding-bottom: 12px;
+	}
+
+	.ai-opinion-box {
+		grid-column: auto;
 	}
 
 	.grid-2 {
